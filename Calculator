@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFRRF Retirement Benefit Calculator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+  :root {
+    --dfd-red: #C41E3A;
+    --dfd-red-dark: #9B1830;
+    --dfd-red-light: #E8314F;
+    --dfd-navy: #1B2A4A;
+    --dfd-navy-light: #2D4470;
+    --dfd-gold: #D4A843;
+    --dfd-gold-light: #F0D078;
+    --bg-cream: #FAF8F5;
+    --bg-white: #FFFFFF;
+    --text-primary: #1a1a1a;
+    --text-secondary: #555;
+    --text-muted: #888;
+    --border-light: #e0dcd7;
+    --success-green: #2D8F4E;
+    --warning-amber: #D4860A;
+    --section-bg: #FFFFFF;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 30px rgba(0,0,0,0.12);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-cream); color: var(--text-primary);
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .hero {
+    background: linear-gradient(135deg, var(--dfd-navy) 0%, var(--dfd-navy-light) 50%, var(--dfd-red-dark) 100%);
+    color: white; text-align: center; padding: 48px 24px 56px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+  .hero-logo { width: 120px; height: auto; margin-bottom: 20px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3)); }
+  .hero h1 {
+    font-family: 'Merriweather', Georgia, serif; font-size: clamp(1.6rem, 4vw, 2.2rem);
+    font-weight: 900; letter-spacing: -0.02em; margin-bottom: 8px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  .hero-subtitle { font-size: 1rem; font-weight: 300; opacity: 0.85; letter-spacing: 0.03em; }
+  .stats-bar { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .stat-card {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.15);
+    border-radius: var(--radius-sm); padding: 14px 20px; min-width: 130px; backdrop-filter: blur(4px);
+  }
+  .stat-card .stat-value { font-family: 'Merriweather', serif; font-size: 1.4rem; font-weight: 900; color: var(--dfd-gold-light); display: block; }
+  .stat-card .stat-label { font-size: 0.76rem; opacity: 0.75; display: block; margin-top: 2px; }
+  .benefit-banner {
+    background: var(--bg-white); border: 2px solid var(--dfd-red); border-radius: var(--radius);
+    max-width: 720px; margin: -32px auto 0; position: relative; z-index: 10;
+    padding: 24px 28px; text-align: center; box-shadow: var(--shadow-lg);
+    transition: padding 0.25s, border-radius 0.25s;
+  }
+  .benefit-banner-spacer { display: none; }
+  .benefit-banner.sticky {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    margin: 0 auto; border-radius: 0 0 var(--radius) var(--radius);
+    padding: 12px 28px; border-top: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    animation: slideDown 0.25s ease-out;
+  }
+  .benefit-banner.sticky + .benefit-banner-spacer { display: block; }
+  .benefit-banner.sticky .benefit-banner-label { font-size: 0.7rem; margin-bottom: 0; }
+  .benefit-banner.sticky .benefit-banner-amount { font-size: clamp(1.4rem, 4vw, 1.8rem); }
+  .benefit-banner.sticky .benefit-banner-sub { font-size: 0.78rem; margin-top: 2px; }
+  .benefit-banner.sticky .benefit-banner-form { font-size: 0.72rem; margin-top: 1px; }
+  @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+  .benefit-banner-label { font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 2px; }
+  .benefit-banner-amount { font-family: 'Merriweather', serif; font-size: clamp(2rem, 6vw, 2.8rem); font-weight: 900; color: var(--dfd-red); line-height: 1.1; }
+  .benefit-banner-sub { font-size: 0.88rem; color: var(--text-muted); margin-top: 4px; }
+  .benefit-banner-form { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; font-style: italic; }
+  .container { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
+  .intro { text-align: center; padding: 32px 8px 8px; color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; }
+  .intro a { color: var(--dfd-red); text-decoration: none; font-weight: 600; }
+  .intro a:hover { text-decoration: underline; }
+  .callout {
+    background: #FFF8E1; border-left: 4px solid var(--dfd-gold); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 16px 20px; margin: 24px 0 32px; font-size: 0.88rem; color: #5D4E2B; line-height: 1.6;
+  }
+  .callout strong { color: #3E3419; }
+  .section {
+    background: var(--section-bg); border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    margin-bottom: 24px; overflow: hidden; border: 1px solid var(--border-light);
+  }
+  .section-header { display: flex; align-items: center; gap: 14px; padding: 20px 24px; border-bottom: 1px solid var(--border-light); }
+  .section-number {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--dfd-red); color: white;
+    font-family: 'Merriweather', serif; font-weight: 900; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .section-title { font-family: 'Merriweather', serif; font-size: 1.12rem; font-weight: 700; color: var(--dfd-navy); }
+  .section-body { padding: 24px; }
+  .section-desc { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.65; }
+  .field-group { margin-bottom: 20px; }
+  .field-group:last-child { margin-bottom: 0; }
+  .field-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+  .field-hint { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 540px) { .field-row { grid-template-columns: 1fr; } }
+  input[type="number"], select {
+    width: 100%; padding: 12px 14px; border: 1.5px solid var(--border-light);
+    border-radius: var(--radius-sm); font-family: 'Source Sans 3', sans-serif;
+    font-size: 1rem; color: var(--text-primary); background: var(--bg-white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  input[type="number"] { -moz-appearance: textfield; }
+  input:focus, select:focus { outline: none; border-color: var(--dfd-red); box-shadow: 0 0 0 3px rgba(196,30,58,0.12); }
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23888' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px;
+  }
+  /* === SLIDER === */
+  .slider-wrap { position: relative; padding: 8px 0 4px; }
+  .slider-value-display {
+    font-family: 'Merriweather', serif; font-size: 1.5rem; font-weight: 900;
+    color: var(--dfd-navy); text-align: center; margin-bottom: 8px;
+  }
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 8px;
+    background: #E8E4DF; border-radius: 4px; outline: none; cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 28px; height: 28px;
+    border-radius: 50%; background: var(--dfd-red); border: 3px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: pointer; transition: transform 0.15s;
+  }
+  input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+  input[type="range"]::-moz-range-thumb {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--dfd-red);
+    border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.25); cursor: pointer;
+  }
+  .slider-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; }
+  /* === TYPE TABS === */
+  .type-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .type-tab {
+    padding: 10px 16px; border: 1.5px solid var(--border-light); border-radius: var(--radius-sm);
+    font-size: 0.85rem; font-weight: 600; color: var(--text-secondary);
+    cursor: pointer; transition: all 0.2s; background: var(--bg-white); white-space: nowrap;
+  }
+  .type-tab:hover { border-color: var(--dfd-red); color: var(--dfd-red); background: #FDF8F8; }
+  .type-tab.active { border-color: var(--dfd-red); color: white; background: var(--dfd-red); box-shadow: 0 2px 8px rgba(196,30,58,0.25); }
+  /* === SURVIVOR OPTIONS === */
+  .survivor-options { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+  .survivor-option {
+    display: flex; align-items: flex-start; gap: 12px; padding: 14px 16px;
+    border: 1.5px solid var(--border-light); border-radius: var(--radius-sm);
+    cursor: pointer; transition: all 0.2s; background: var(--bg-white);
+  }
+  .survivor-option:hover { border-color: var(--dfd-red); background: #FDF8F8; }
+  .survivor-option.selected {
+    border-color: var(--dfd-red); background: linear-gradient(135deg, #FDF2F4 0%, #FDEEF0 100%);
+    box-shadow: 0 0 0 3px rgba(196,30,58,0.1);
+  }
+  .surv-radio {
+    width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border-light);
+    flex-shrink: 0; margin-top: 2px; position: relative; transition: border-color 0.2s;
+  }
+  .survivor-option.selected .surv-radio { border-color: var(--dfd-red); }
+  .survivor-option.selected .surv-radio::after {
+    content: ''; position: absolute; top: 3px; left: 3px;
+    width: 10px; height: 10px; border-radius: 50%; background: var(--dfd-red);
+  }
+  .surv-label { font-weight: 600; font-size: 0.92rem; color: var(--text-primary); }
+  .surv-desc { font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px; line-height: 1.5; }
+  .surv-amounts { font-size: 0.82rem; color: var(--dfd-red); font-weight: 600; margin-top: 4px; }
+  .tag { display: inline-block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 7px; border-radius: 4px; margin-left: 6px; vertical-align: middle; background: rgba(196,30,58,0.1); color: var(--dfd-red); }
+  .result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  @media (max-width: 500px) { .result-grid { grid-template-columns: 1fr; } }
+  .result-card { background: var(--bg-cream); border-radius: var(--radius-sm); padding: 16px; border: 1px solid var(--border-light); }
+  .result-card.highlight { background: linear-gradient(135deg, #FDF2F4 0%, #FDEEF0 100%); border-color: var(--dfd-red); grid-column: 1 / -1; }
+  .result-label { font-size: 0.76rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); margin-bottom: 4px; }
+  .result-value { font-family: 'Merriweather', serif; font-size: 1.3rem; font-weight: 700; color: var(--dfd-navy); }
+  .result-card.highlight .result-value { color: var(--dfd-red); font-size: 1.5rem; }
+  .result-note { font-size: 0.78rem; color: var(--text-muted); margin-top: 4px; }
+  .formula-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.9rem; }
+  .formula-table th { text-align: left; font-weight: 600; font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); padding: 8px 12px; border-bottom: 2px solid var(--border-light); }
+  .formula-table td { padding: 10px 12px; border-bottom: 1px solid #f0ece7; color: var(--text-primary); }
+  .formula-table tr:last-child td { border-bottom: none; }
+  .formula-table .total-row td { font-weight: 700; border-top: 2px solid var(--dfd-navy); border-bottom: none; color: var(--dfd-navy); }
+  .progress-track { width: 100%; height: 12px; background: #E8E4DF; border-radius: 6px; overflow: hidden; margin: 12px 0 8px; }
+  .progress-fill { height: 100%; border-radius: 6px; transition: width 0.5s ease, background 0.3s; background: var(--dfd-red); }
+  .progress-fill.vested { background: var(--success-green); }
+  .progress-fill.partial { background: var(--warning-amber); }
+  .milestone-row { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--text-muted); }
+  .milestone-row span.active { color: var(--dfd-red); font-weight: 600; }
+  .conditional { display: none; }
+  .conditional.visible { display: block; }
+  .divider { border: none; border-top: 1px solid var(--border-light); margin: 20px 0; }
+  .footer {
+    background: var(--dfd-navy); color: white; text-align: center; padding: 40px 24px;
+  }
+  .footer-badge { font-family: 'Merriweather', serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; opacity: 0.6; margin-bottom: 4px; }
+  .footer-name { font-family: 'Merriweather', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+  .footer-sub { font-size: 0.85rem; opacity: 0.65; margin-bottom: 20px; }
+  .footer-links { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+  .footer-links a { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+  .footer-links a:hover { background: rgba(255,255,255,0.2); }
+  .footer-links img { width: 18px; height: 18px; }
+  .footer-cta { display: inline-block; background: var(--dfd-red); color: white; text-decoration: none; padding: 12px 28px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.92rem; margin: 16px 0 24px; transition: background 0.2s; }
+  .footer-cta:hover { background: var(--dfd-red-light); }
+  .footer-legal { font-size: 0.75rem; opacity: 0.45; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-content">
+    <img src="https://files.constantcontact.com/3720c3fd901/10017eb4-f7d2-424d-92ed-c1b5424b9869.png" alt="Denton Fire Department" class="hero-logo">
+    <h1>DFRRF Retirement Benefit Calculator</h1>
+    <p class="hero-subtitle">Interactive estimator for Denton Firemen's Relief &amp; Retirement Fund members</p>
+    <div class="stats-bar">
+      <div class="stat-card"><span class="stat-value">2.59%</span><span class="stat-label">Benefit rate / yr of service</span></div>
+      <div class="stat-card"><span class="stat-value">20 yrs</span><span class="stat-label">Full vesting</span></div>
+      <div class="stat-card"><span class="stat-value">Age 50</span><span class="stat-label">Earliest retirement</span></div>
+    </div>
+  </div>
+</header>
+<div class="benefit-banner" id="benefitBanner">
+  <div class="benefit-banner-label" id="bannerLabel">Your Estimated Monthly Benefit</div>
+  <div class="benefit-banner-amount" id="bannerAmount">$0.00</div>
+  <div class="benefit-banner-sub" id="bannerSub">$0 per year</div>
+  <div class="benefit-banner-form" id="bannerForm">Adjust the sliders below to calculate</div>
+</div>
+<div class="benefit-banner-spacer" id="bannerSpacer"></div>
+<div class="container">
+  <div class="intro">
+    This calculator uses the DFRRF benefit formula (Plan Document, Section B.2, effective January 1, 2011) to estimate your retirement income. Your actual benefit is computed by the Fund administrator using your verified salary history and service records. Log in to the <a href="https://dentonfirepension.com/Home.aspx" target="_blank">DFRRF Member Portal</a> for your official calculation.
+  </div>
+  <div class="callout">
+    <strong>Estimate only.</strong> Salary data shown is from the <strong>FY 2024-2025 Civil Service Fire Pay Plan</strong> (effective January 4, 2025), not actual payroll records. Your real Average Monthly Salary is computed from your highest 78 consecutive bi-weekly pay periods, which includes overtime and other eligible compensation. This calculator uses base pay as a starting point. Contact Gary Calmes at <strong>gary@dentonfirepension.com</strong> for official benefit estimates.
+  </div>
+  <!-- ===== SECTION 1: RETIREMENT TYPE ===== -->
+  <div class="section">
+    <div class="section-header"><div class="section-number">1</div><div class="section-title">Retirement Type</div></div>
+    <div class="section-body">
+      <div class="section-desc">Select the type of benefit you want to estimate.</div>
+      <div class="type-tabs" id="typeTabs">
+        <div class="type-tab active" data-type="normal" onclick="selectType('normal')">Normal</div>
+        <div class="type-tab" data-type="drop" onclick="selectType('drop')">Retro DROP</div>
+        <div class="type-tab" data-type="vested" onclick="selectType('vested')">Vested Termination</div>
+        <div class="type-tab" data-type="disability" onclick="selectType('disability')">Disability</div>
+        <div class="type-tab" data-type="death" onclick="selectType('death')">Death</div>
+      </div>
+      <div id="typeDescription"></div>
+    </div>
+  </div>
+  <!-- ===== SECTION 2: YOUR INFORMATION ===== -->
+  <div class="section">
+    <div class="section-header"><div class="section-number">2</div><div class="section-title">Your Information</div></div>
+    <div class="section-body">
+      <div class="field-group">
+        <label class="field-label" for="payPlanSelect">Select Your Current Rank &amp; Step (FY 2024-2025 Pay Plan)</label>
+        <select id="payPlanSelect" onchange="onPayPlanChange()">
+          <option value="">-- Choose your rank and step --</option>
+          <optgroup label="Fire Fighter">
+            <option value="7169.07">Fire Fighter - Step A: $7,169.07/mo</option>
+            <option value="7536.53">Fire Fighter - Step B (2 yrs): $7,536.53/mo</option>
+            <option value="7902.27">Fire Fighter - Step C (3 yrs): $7,902.27/mo</option>
+            <option value="8268.00">Fire Fighter - Step D (4 yrs): $8,268.00/mo</option>
+            <option value="8635.47">Fire Fighter - Step E (5 yrs): $8,635.47/mo</option>
+            <option value="9001.20">Fire Fighter - Step F (7 yrs): $9,001.20/mo</option>
+          </optgroup>
+          <optgroup label="Fire Driver">
+            <option value="9271.60">Fire Driver - Step A (At Promotion): $9,271.60/mo</option>
+            <option value="9526.40">Fire Driver - Step B (2 yrs): $9,526.40/mo</option>
+            <option value="9781.20">Fire Driver - Step C (4 yrs): $9,781.20/mo</option>
+          </optgroup>
+          <optgroup label="Fire Lieutenant">
+            <option value="10325.47">Fire Lieutenant - Step A: $10,325.47/mo</option>
+            <option value="10575.07">Fire Lieutenant - Step B (2 yrs): $10,575.07/mo</option>
+            <option value="10824.67">Fire Lieutenant - Step C (4 yrs): $10,824.67/mo</option>
+          </optgroup>
+          <optgroup label="Fire Captain">
+            <option value="11289.20">Fire Captain - Step A: $11,289.20/mo</option>
+            <option value="11625.47">Fire Captain - Step B (2 yrs): $11,625.47/mo</option>
+            <option value="11961.73">Fire Captain - Step C (4 yrs): $11,961.73/mo</option>
+          </optgroup>
+          <optgroup label="Fire Battalion Chief">
+            <option value="12863.07">Battalion Chief - Step A: $12,863.07/mo</option>
+            <option value="13265.20">Battalion Chief - Step B (2 yrs): $13,265.20/mo</option>
+            <option value="13667.33">Battalion Chief - Step C (4 yrs): $13,667.33/mo</option>
+          </optgroup>
+          <optgroup label="Assistant Fire Chief">
+            <option value="14329.47">Asst. Fire Chief - Minimum: $14,329.47/mo</option>
+            <option value="15529.80">Asst. Fire Chief - Midpoint: $15,529.80/mo</option>
+            <option value="16730.13">Asst. Fire Chief - Maximum: $16,730.13/mo</option>
+          </optgroup>
+        </select>
+        <div class="field-hint">This sets the slider below. Your actual average salary (based on 78 pay periods) will differ because it includes overtime and other eligible pay.</div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Average Monthly Salary</label>
+        <div class="slider-wrap">
+          <div class="slider-value-display" id="salaryDisplay">$7,150</div>
+          <input type="range" id="salarySlider" min="4500" max="21000" step="50" value="7150" oninput="onSalarySlide()">
+          <div class="slider-labels"><span>$4,500</span><span>$21,000</span></div>
+        </div>
+        <div class="field-hint">Drag to adjust. Your real average may be higher than base pay if you regularly work overtime.</div>
+      </div>
+      <hr class="divider">
+      <div class="field-group">
+        <label class="field-label">Years of Credited Service at Retirement</label>
+        <div class="slider-wrap">
+          <div class="slider-value-display" id="serviceDisplay">20.0 years</div>
+          <input type="range" id="serviceSlider" min="0" max="80" step="1" value="40" oninput="onServiceSlide()">
+          <div class="slider-labels"><span>0</span><span>10 yrs</span><span>20 yrs</span><span>30 yrs</span><span>40 yrs</span></div>
+        </div>
+      </div>
+      <!-- DROP fields -->
+      <div class="conditional" id="dropFields">
+        <hr class="divider">
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label" for="dropMonths">Months in DROP</label>
+            <input type="number" id="dropMonths" min="1" max="60" value="48" oninput="recalculate()">
+            <div class="field-hint">Default is 48 months (4 years).</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="dropContrib">Employee Contributions During DROP</label>
+            <input type="number" id="dropContrib" min="0" step="0.01" placeholder="Leave blank to estimate" oninput="recalculate()">
+          </div>
+        </div>
+      </div>
+      <!-- Disability fields -->
+      <div class="conditional" id="disabilityFields">
+        <hr class="divider">
+        <div class="field-group">
+          <label class="field-label" for="disabilityPct">Disability Percentage</label>
+          <input type="number" id="disabilityPct" min="0" max="100" step="0.1" placeholder="e.g. 51.8" oninput="recalculate()">
+          <div class="field-hint">The disability percentage assigned to your case. This additional factor is applied to your calculated monthly benefit.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===== SECTION 3: VESTING ===== -->
+  <div class="section">
+    <div class="section-header"><div class="section-number">3</div><div class="section-title">Vesting Status</div></div>
+    <div class="section-body">
+      <div class="section-desc">Benefits fully vest after 20 years of credited service. A deferred benefit is available to members who leave after 10 years. Normal retirement requires age 50 with 20 years of service.</div>
+      <div id="vestingStatus"></div>
+      <div class="progress-track"><div class="progress-fill" id="vestingBar" style="width: 0%"></div></div>
+      <div class="milestone-row">
+        <span id="m0">0 yrs</span><span id="m10">10 yrs (partial)</span><span id="m20">20 yrs (full)</span>
+      </div>
+    </div>
+  </div>
+  <!-- ===== SECTION 4: FORMULA ===== -->
+  <div class="section">
+    <div class="section-header"><div class="section-number">4</div><div class="section-title">Benefit Formula Breakdown</div></div>
+    <div class="section-body">
+      <div class="section-desc">The DFRRF benefit formula computes a monthly benefit amount. Each step is shown below based on your inputs.</div>
+      <div id="formulaBreakdown"></div>
+    </div>
+  </div>
+  <!-- ===== SECTION 5: SURVIVOR OPTIONS ===== -->
+  <div class="section">
+    <div class="section-header"><div class="section-number">5</div><div class="section-title">Optional Forms of Payment to Surviving Spouse</div></div>
+    <div class="section-body">
+      <div class="section-desc">Choose how your benefit will be paid. Each option trades off between your monthly payment and the benefit your surviving spouse would receive.</div>
+      <div class="survivor-options" id="survivorOptions">
+        <div class="survivor-option selected" data-key="j67" onclick="selectSurvivor(this)">
+          <div class="surv-radio"></div>
+          <div style="flex:1">
+            <div class="surv-label">Joint &amp; 66.67% to Surviving Spouse <span class="tag">Plan Default</span></div>
+            <div class="surv-desc">You receive the full benefit. Upon your death, your spouse receives two-thirds (66.67%) for their lifetime.</div>
+            <div class="surv-amounts" id="surv67Amounts">No reduction to your benefit</div>
+          </div>
+        </div>
+        <div class="survivor-option" data-key="j100" onclick="selectSurvivor(this)">
+          <div class="surv-radio"></div>
+          <div style="flex:1">
+            <div class="surv-label">Joint &amp; 100% to Surviving Spouse</div>
+            <div class="surv-desc">You and your spouse both receive 96% of the calculated benefit. Same amount to both.</div>
+            <div class="surv-amounts" id="surv100Amounts">96% of base benefit</div>
+          </div>
+        </div>
+        <div class="survivor-option" data-key="j50" onclick="selectSurvivor(this)">
+          <div class="surv-radio"></div>
+          <div style="flex:1">
+            <div class="surv-label">Joint &amp; 50% to Surviving Spouse</div>
+            <div class="surv-desc">You receive 102% of the calculated benefit. Upon your death, your spouse receives 50% of your amount.</div>
+            <div class="surv-amounts" id="surv50Amounts">102% of base benefit</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ===== SECTION 6: CONTRIBUTIONS ===== -->
+  <div class="section">
+    <div class="section-header"><div class="section-number">6</div><div class="section-title">Contribution Summary</div></div>
+    <div class="section-body">
+      <div class="section-desc">You contribute 12.6% of your pay toward your pension. Separately, the City of Denton contributes 18.5% of your compensation on your behalf. The City's contribution is not deducted from your paycheck.</div>
+      <div id="contributionResults"></div>
+    </div>
+  </div>
+  <!-- ===== SECTION 7: REPLACEMENT ===== -->
+  <div class="section">
+    <div class="section-header"><div class="section-number">7</div><div class="section-title">Income Replacement</div></div>
+    <div class="section-body">
+      <div class="section-desc">Financial planners generally recommend replacing 70% to 85% of pre-retirement income. Your DFRRF benefit covers a significant share. The gap can be bridged with the IAFF 457 plan, personal savings, or Social Security (if eligible).</div>
+      <div id="replacementResults"></div>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-badge">Excellence Through Preparedness</div>
+  <div class="footer-name">Denton Fire Department</div>
+  <div class="footer-sub">Community Risk Reduction &bull; Pension Board Outreach</div>
+  <a href="https://dentonfirepension.com/Home.aspx" target="_blank" class="footer-cta">Log In to Your Pension Portal</a>
+  <div class="footer-links">
+    <a href="https://www.facebook.com/dentonfire" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/facebook-new.png" alt="Facebook"></a>
+    <a href="https://www.instagram.com/dentonfiredepartment" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/instagram-new.png" alt="Instagram"></a>
+    <a href="https://x.com/DentonFireDept" target="_blank"><img src="https://img.icons8.com/ios-filled/50/ffffff/twitterx.png" alt="X"></a>
+  </div>
+  <div class="footer-legal">
+    Benefit estimates are for informational purposes only. Salary data is from the FY 2024-2025 Civil Service Fire Pay Plan (effective January 4, 2025) and does not reflect actual payroll records. Actual benefits are determined by the DFRRF Board of Trustees using verified service records and the member's highest 78 consecutive bi-weekly pay periods. The 2.59% benefit rate is per the Plan Document effective January 1, 2011, Section B.2. Survivor option factors: Joint &amp; 66.67% = 100%, Joint &amp; 100% = 96%, Joint &amp; 50% = 102%.
+  </div>
+</footer>
+<script>
+// ============================================================
+// DFRRF BENEFIT CALCULATOR v3.1
+// 2.59% uniform rate per Plan Document Section B.2
+// Salary data from FY 2024-2025 Civil Service Fire Pay Plan
+// Effective January 4, 2025
+// ============================================================
+let currentType = 'normal';
+let selectedSurvivor = 'j67';
+// Single benefit rate per plan document (confirmed by Gary Calmes)
+const BENEFIT_RATE = 0.0259; // 2.59% per year of service
+// Death benefit uses a different formula
+const DEATH_BASE_RATE = 0.3453;  // 34.53% flat
+const DEATH_ADD_RATE = 0.0173;   // 1.73% per year over 20
+// Survivor factors from plan document
+const SURVIVOR = {
+  j67:  { member: 1.00, spousePct: 2/3 },
+  j100: { member: 0.96, spousePct: 1.00 },
+  j50:  { member: 1.02, spousePct: 0.50 }
+};
+const EMPLOYEE_RATE = 0.126;
+const CITY_RATE = 0.185;
+const TYPE_DESC = {
+  normal: 'Standard retirement for members who reach age 50 with at least 20 years of credited service. Benefit = Average Salary x Total Service x 2.59%.',
+  drop: 'The Retro DROP lets you freeze your benefit at a chosen date, then accumulate a lump sum over the DROP period (up to 48 months). The lump sum equals your monthly benefit times the number of DROP months, plus your employee contributions during the period.',
+  vested: 'For members who leave with at least 10 years but before reaching normal retirement eligibility. Same formula as Normal, but payments are deferred until age 50.',
+  disability: 'For members disabled during service. The standard benefit is calculated, then reduced by a disability percentage factor assigned to your case.',
+  death: 'Survivor benefit paid upon death of an active member. Different formula: 34.53% flat rate applied to your average salary, plus 1.73% for each year of service beyond 20.'
+};
+function fmt(n) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n); }
+function fmt0(n) { return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n); }
+function selectType(type) {
+  currentType = type;
+  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.type-tab[data-type="${type}"]`).classList.add('active');
+  document.getElementById('dropFields').classList.toggle('visible', type === 'drop');
+  document.getElementById('disabilityFields').classList.toggle('visible', type === 'disability');
+  document.getElementById('typeDescription').innerHTML = `<div class="callout" style="margin-top:12px;margin-bottom:0;">${TYPE_DESC[type]}</div>`;
+  recalculate();
+}
+function selectSurvivor(el) {
+  document.querySelectorAll('.survivor-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedSurvivor = el.dataset.key;
+  recalculate();
+}
+function onPayPlanChange() {
+  const val = parseFloat(document.getElementById('payPlanSelect').value);
+  if (val > 0) {
+    const slider = document.getElementById('salarySlider');
+    // Clamp to slider range
+    const clamped = Math.min(21000, Math.max(4500, Math.round(val / 50) * 50));
+    slider.value = clamped;
+    onSalarySlide();
+  }
+}
+function onSalarySlide() {
+  const val = parseFloat(document.getElementById('salarySlider').value);
+  document.getElementById('salaryDisplay').textContent = '$' + val.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  recalculate();
+}
+function onServiceSlide() {
+  // Slider goes 0-80 in steps of 1, representing 0.0 to 40.0 years in 0.5 increments
+  const raw = parseInt(document.getElementById('serviceSlider').value);
+  const years = raw / 2;
+  document.getElementById('serviceDisplay').textContent = years.toFixed(1) + ' years';
+  recalculate();
+}
+function recalculate() {
+  const avgSalary = parseFloat(document.getElementById('salarySlider').value) || 0;
+  const serviceRaw = parseInt(document.getElementById('serviceSlider').value) || 0;
+  const totalService = serviceRaw / 2; // Convert to years (0-40 in 0.5 steps)
+  const dropMonths = parseFloat(document.getElementById('dropMonths').value) || 48;
+  const dropContribInput = parseFloat(document.getElementById('dropContrib').value) || 0;
+  const disabilityPctInput = parseFloat(document.getElementById('disabilityPct').value) || 0;
+  const isVested = totalService >= 10;
+  // Estimated total employee contributions (no interest per plan document)
+  const totalContributions = avgSalary * EMPLOYEE_RATE * totalService * 12;
+  // ============================
+  // NOT VESTED: CONTRIBUTION REFUND
+  // ============================
+  if (!isVested && totalService > 0 && avgSalary > 0) {
+    // Banner shows lump sum refund
+    document.getElementById('bannerLabel').textContent = 'Estimated Contribution Refund (Lump Sum)';
+    document.getElementById('bannerAmount').textContent = fmt0(totalContributions);
+    document.getElementById('bannerAmount').style.color = 'var(--dfd-navy)';
+    document.getElementById('bannerSub').textContent = 'Your payroll deductions returned to you';
+    document.getElementById('bannerForm').textContent = 'Not yet vested \u2022 ' + totalService.toFixed(1) + ' yrs of ' + (10).toFixed(0) + ' needed';
+    // Vesting
+    updateVesting(totalService);
+    // Formula shows contribution calc
+    const formulaEl = document.getElementById('formulaBreakdown');
+    formulaEl.innerHTML = `
+      <div class="result-card highlight" style="border-color:var(--dfd-navy)">
+        <div class="result-label">Not Yet Vested: Contribution Refund Only</div>
+        <div class="result-value" style="color:var(--dfd-navy)">${fmt0(totalContributions)}</div>
+        <div class="result-note">If you leave before 10 years, you receive a lump sum refund of your accumulated employee contributions. The City's contributions stay in the Fund. Per the plan document, accumulated contributions do not earn interest.</div>
+      </div>
+      <table class="formula-table" style="margin-top:16px">
+        <thead><tr><th>Component</th><th>Operation</th><th>Value</th></tr></thead>
+        <tbody>
+          <tr><td>Average Monthly Salary</td><td></td><td>${fmt(avgSalary)}</td></tr>
+          <tr><td>Your Contribution Rate</td><td>&times; 12.6%</td><td>${fmt(avgSalary * EMPLOYEE_RATE)}/mo</td></tr>
+          <tr><td>Months of Service</td><td>&times; ${(totalService * 12).toFixed(0)} months</td><td></td></tr>
+          <tr class="total-row"><td>Estimated Refund</td><td>=</td><td>${fmt(totalContributions)}</td></tr>
+        </tbody>
+      </table>
+      <div class="callout" style="margin-top:16px;margin-bottom:0">
+        <strong>What does vesting mean?</strong> Vesting is the point at which you earn a permanent right to a monthly pension benefit, not just a refund of your contributions. At <strong>10 years</strong> of service, you become partially vested and earn a deferred monthly benefit payable starting at age 50. At <strong>20 years</strong>, you become fully vested and can retire immediately at age 50. Before 10 years, leaving the department means you receive only your own payroll deductions back as a lump sum.
+      </div>`;
+    // Survivor options: not applicable
+    document.getElementById('surv67Amounts').textContent = 'Not applicable until vested (10+ years)';
+    document.getElementById('surv100Amounts').textContent = 'Not applicable until vested (10+ years)';
+    document.getElementById('surv50Amounts').textContent = 'Not applicable until vested (10+ years)';
+    // Contributions
+    updateContributions(avgSalary, totalService, totalContributions);
+    // Replacement: not applicable
+    document.getElementById('replacementResults').innerHTML = `
+      <div class="result-card">
+        <div class="result-label">Not Yet Applicable</div>
+        <div class="result-note">Income replacement analysis applies once you are vested (10+ years of service) and eligible for a monthly pension benefit. At your current service level, leaving the department would result in a lump sum contribution refund of approximately <strong>${fmt0(totalContributions)}</strong>, not a monthly pension.</div>
+      </div>`;
+    return; // Exit early, skip the vested benefit logic
+  }
+  // ============================
+  // VESTED: BENEFIT CALCULATION
+  // ============================
+  let monthlyBenefit = 0;
+  let subTotal = 0;
+  let dropLumpsum = 0;
+  let dropReturnable = 0;
+  let dropContribSum = 0;
+  let disabilityBenefit = 0;
+  let deathBaseBenefit = 0;
+  let deathAddBenefit = 0;
+  if (avgSalary > 0 && totalService > 0) {
+    switch (currentType) {
+      case 'normal':
+      case 'vested':
+        subTotal = avgSalary * totalService;
+        monthlyBenefit = subTotal * BENEFIT_RATE;
+        break;
+      case 'drop':
+        subTotal = avgSalary * totalService;
+        monthlyBenefit = subTotal * BENEFIT_RATE;
+        dropReturnable = monthlyBenefit * dropMonths;
+        dropContribSum = dropContribInput > 0 ? dropContribInput : (avgSalary * EMPLOYEE_RATE * dropMonths);
+        dropLumpsum = dropContribSum + dropReturnable;
+        break;
+      case 'disability':
+        subTotal = avgSalary * totalService;
+        monthlyBenefit = subTotal * BENEFIT_RATE;
+        if (disabilityPctInput > 0) {
+          disabilityBenefit = monthlyBenefit * (disabilityPctInput / 100);
+        }
+        break;
+      case 'death':
+        deathBaseBenefit = avgSalary * DEATH_BASE_RATE;
+        const serviceOver20 = Math.max(0, totalService - 20);
+        deathAddBenefit = avgSalary * serviceOver20 * DEATH_ADD_RATE;
+        monthlyBenefit = deathBaseBenefit + deathAddBenefit;
+        break;
+    }
+  }
+  const displayBenefit = (currentType === 'disability' && disabilityPctInput > 0) ? disabilityBenefit : monthlyBenefit;
+  const surv = SURVIVOR[selectedSurvivor];
+  const memberBenefit = displayBenefit * surv.member;
+  const spouseBenefit = memberBenefit * surv.spousePct;
+  // ============================
+  // BANNER (vested)
+  // ============================
+  document.getElementById('bannerLabel').textContent = 'Your Estimated Monthly Benefit';
+  document.getElementById('bannerAmount').style.color = 'var(--dfd-red)';
+  if (avgSalary > 0 && totalService > 0 && memberBenefit > 0) {
+    document.getElementById('bannerAmount').textContent = fmt(memberBenefit);
+    document.getElementById('bannerSub').textContent = fmt0(memberBenefit * 12) + ' per year';
+    const labels = { normal: 'Normal', drop: 'Retro DROP', vested: 'Vested Termination', disability: 'Disability', death: 'Death' };
+    const survLabels = { j67: 'Joint & 66.67%', j100: 'Joint & 100%', j50: 'Joint & 50%' };
+    document.getElementById('bannerForm').textContent = labels[currentType] + ' \u2022 ' + survLabels[selectedSurvivor] + ' \u2022 ' + totalService.toFixed(1) + ' yrs service';
+  } else {
+    document.getElementById('bannerAmount').textContent = '$0.00';
+    document.getElementById('bannerSub').textContent = '$0 per year';
+    document.getElementById('bannerForm').textContent = 'Adjust the sliders above to calculate';
+  }
+  // ============================
+  // VESTING
+  // ============================
+  updateVesting(totalService);
+  // ============================
+  // FORMULA BREAKDOWN
+  // ============================
+  const formulaEl = document.getElementById('formulaBreakdown');
+  if (avgSalary > 0 && totalService > 0) {
+    let rows = '';
+    if (currentType === 'death') {
+      const svc20 = Math.max(0, totalService - 20);
+      rows = `
+        <tr><td>Average Monthly Salary</td><td></td><td>${fmt(avgSalary)}</td></tr>
+        <tr><td>Benefit Percentage (flat rate)</td><td>&times; 34.53%</td><td></td></tr>
+        <tr><td>Monthly Benefit</td><td>=</td><td>${fmt(deathBaseBenefit)}</td></tr>
+        <tr><td>Service Over 20 Years</td><td></td><td>${svc20.toFixed(1)} yrs</td></tr>
+        <tr><td>Additional Percentage</td><td>&times; 1.73%</td><td></td></tr>
+        <tr><td>Additional Benefit</td><td>=</td><td>${fmt(deathAddBenefit)}</td></tr>
+        <tr class="total-row"><td>Total Monthly Benefit</td><td>=</td><td>${fmt(monthlyBenefit)}</td></tr>`;
+    } else {
+      rows = `
+        <tr><td>Average Monthly Salary</td><td></td><td>${fmt(avgSalary)}</td></tr>
+        <tr><td>Years of Credited Service</td><td>&times; ${totalService.toFixed(1)}</td><td></td></tr>
+        <tr><td>Sub Total</td><td>=</td><td>${fmt(subTotal)}</td></tr>
+        <tr><td>Benefit Rate</td><td>&times; 2.59%</td><td></td></tr>
+        <tr class="total-row"><td>Total Monthly Benefit</td><td>=</td><td>${fmt(monthlyBenefit)}</td></tr>`;
+      if (currentType === 'disability' && disabilityPctInput > 0) {
+        rows += `<tr><td>Disability Percentage</td><td>&times; ${disabilityPctInput.toFixed(1)}%</td><td></td></tr>
+        <tr class="total-row"><td>Disability Benefit</td><td>=</td><td>${fmt(disabilityBenefit)}</td></tr>`;
+      } else if (currentType === 'disability') {
+        rows += `<tr><td colspan="3" style="color:var(--warning-amber);font-style:italic">Enter your Disability Percentage above to see the final benefit.</td></tr>`;
+      }
+      if (currentType === 'drop') {
+        rows += `
+        <tr><td colspan="3" style="border-top:2px solid var(--border-light);font-weight:600;color:var(--dfd-navy);padding-top:12px">DROP Lump Sum Calculation</td></tr>
+        <tr><td>Monthly Benefit &times; ${dropMonths} months</td><td>=</td><td>${fmt(dropReturnable)}</td></tr>
+        <tr><td>Employee Contributions (DROP period)</td><td>+</td><td>${fmt(dropContribSum)}</td></tr>
+        <tr class="total-row"><td>DROP Lump Sum</td><td>=</td><td>${fmt(dropLumpsum)}</td></tr>`;
+      }
+    }
+    formulaEl.innerHTML = `
+      <table class="formula-table">
+        <thead><tr><th>Component</th><th>Operation</th><th>Value</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="callout" style="margin-top:16px;margin-bottom:0">
+        <strong>The math:</strong> ${currentType === 'death'
+          ? `${fmt(avgSalary)} &times; 34.53% = ${fmt(deathBaseBenefit)}` + (Math.max(0, totalService - 20) > 0 ? ` + (${fmt(avgSalary)} &times; ${Math.max(0, totalService - 20).toFixed(1)} &times; 1.73% = ${fmt(deathAddBenefit)})` : '') + ` = <strong>${fmt(monthlyBenefit)}/month</strong>`
+          : `${fmt(avgSalary)} &times; ${totalService.toFixed(1)} = ${fmt(subTotal)}, then &times; 2.59% = <strong>${fmt(monthlyBenefit)}/month</strong>`
+            + (currentType === 'disability' && disabilityPctInput > 0 ? ` &times; ${disabilityPctInput.toFixed(1)}% = <strong>${fmt(disabilityBenefit)}/month</strong>` : '')
+            + (currentType === 'drop' ? `<br>DROP Lump Sum: ${fmt(dropReturnable)} + ${fmt(dropContribSum)} = <strong>${fmt(dropLumpsum)}</strong>` : '')
+        }
+      </div>`;
+  } else {
+    formulaEl.innerHTML = '<div class="result-card"><div class="result-note">Adjust the salary and service sliders in Section 2 to see the formula breakdown.</div></div>';
+  }
+  // ============================
+  // SURVIVOR AMOUNTS
+  // ============================
+  if (displayBenefit > 0) {
+    const b = displayBenefit;
+    document.getElementById('surv67Amounts').innerHTML = `You: <strong>${fmt(b)}</strong> &bull; Spouse: <strong>${fmt(b * 2/3)}</strong>`;
+    document.getElementById('surv100Amounts').innerHTML = `You: <strong>${fmt(b * 0.96)}</strong> &bull; Spouse: <strong>${fmt(b * 0.96)}</strong> (same)`;
+    document.getElementById('surv50Amounts').innerHTML = `You: <strong>${fmt(b * 1.02)}</strong> &bull; Spouse: <strong>${fmt(b * 1.02 * 0.50)}</strong>`;
+    if (currentType === 'drop') {
+      const dc = dropContribSum;
+      document.getElementById('surv67Amounts').innerHTML += ` &bull; DROP Lump Sum: <strong>${fmt(b * 1.00 * dropMonths + dc)}</strong>`;
+      document.getElementById('surv100Amounts').innerHTML += ` &bull; DROP Lump Sum: <strong>${fmt(b * 0.96 * dropMonths + dc)}</strong>`;
+      document.getElementById('surv50Amounts').innerHTML += ` &bull; DROP Lump Sum: <strong>${fmt(b * 1.02 * dropMonths + dc)}</strong>`;
+    }
+  } else {
+    document.getElementById('surv67Amounts').textContent = 'No reduction to your benefit';
+    document.getElementById('surv100Amounts').textContent = '96% of base benefit';
+    document.getElementById('surv50Amounts').textContent = '102% of base benefit';
+  }
+  // ============================
+  // CONTRIBUTIONS
+  // ============================
+  updateContributions(avgSalary, totalService, totalContributions);
+  // ============================
+  // INCOME REPLACEMENT
+  // ============================
+  const replEl = document.getElementById('replacementResults');
+  if (avgSalary > 0 && memberBenefit > 0) {
+    const annualSalary = avgSalary * 12;
+    const annualBenefit = memberBenefit * 12;
+    const ratio = annualBenefit / annualSalary;
+    const target80 = annualSalary * 0.80;
+    const gap = Math.max(0, target80 - annualBenefit);
+    let ratioColor = 'var(--dfd-red)';
+    let ratioNote = 'Below the typical 70-85% target. Consider increasing your IAFF 457 plan contributions.';
+    if (ratio >= 0.85) { ratioColor = 'var(--success-green)'; ratioNote = 'Excellent. Your pension alone meets or exceeds the typical planning target.'; }
+    else if (ratio >= 0.70) { ratioColor = 'var(--warning-amber)'; ratioNote = 'Within the typical target range. Supplemental savings provide additional security.'; }
+    replEl.innerHTML = `
+      <div class="result-grid">
+        <div class="result-card highlight" style="border-color:${ratioColor}">
+          <div class="result-label">Income Replacement Ratio</div>
+          <div class="result-value" style="color:${ratioColor}">${(ratio * 100).toFixed(1)}%</div>
+          <div class="result-note">${ratioNote}</div>
+        </div>
+        <div class="result-card">
+          <div class="result-label">80% Target Income</div>
+          <div class="result-value">${fmt0(target80)}</div>
+          <div class="result-note">${fmt0(target80 / 12)}/month</div>
+        </div>
+        ${gap > 0 ? `<div class="result-card">
+          <div class="result-label">Monthly Gap to 80% Target</div>
+          <div class="result-value" style="color:var(--dfd-red)">${fmt(gap / 12)}</div>
+          <div class="result-note">Bridge with 457 plan, savings, or Social Security</div>
+        </div>` : ''}
+      </div>`;
+  } else {
+    replEl.innerHTML = '<div class="result-card"><div class="result-note">Adjust the sliders above to see your income replacement analysis.</div></div>';
+  }
+}
+// ============================
+// HELPER: Update vesting bar
+// ============================
+function updateVesting(totalService) {
+  const vestPct = Math.min(100, (totalService / 20) * 100);
+  const vestingBar = document.getElementById('vestingBar');
+  vestingBar.style.width = vestPct + '%';
+  vestingBar.classList.remove('vested', 'partial');
+  if (totalService >= 20) vestingBar.classList.add('vested');
+  else if (totalService >= 10) vestingBar.classList.add('partial');
+  document.getElementById('m10').className = totalService >= 10 ? 'active' : '';
+  document.getElementById('m20').className = totalService >= 20 ? 'active' : '';
+  const vestEl = document.getElementById('vestingStatus');
+  if (totalService >= 20) {
+    vestEl.innerHTML = `<div class="result-card highlight" style="border-color:var(--success-green);background:#F0FFF4"><div class="result-label">Vesting Status</div><div class="result-value" style="color:var(--success-green)">Fully Vested</div><div class="result-note">You have earned a non-forfeitable right to your full pension benefit at age 50 or older.</div></div>`;
+  } else if (totalService >= 10) {
+    vestEl.innerHTML = `<div class="result-card highlight" style="border-color:var(--warning-amber);background:#FFF8E1"><div class="result-label">Vesting Status</div><div class="result-value" style="color:var(--warning-amber)">Partially Vested</div><div class="result-note">You have earned a deferred monthly benefit payable at age 50 (or when you would have completed 20 years, whichever is later).</div></div>`;
+  } else if (totalService > 0) {
+    vestEl.innerHTML = `
+      <div class="result-card highlight" style="border-color:var(--dfd-red);background:#FDF2F4">
+        <div class="result-label">Vesting Status</div>
+        <div class="result-value" style="color:var(--dfd-red)">Not Yet Vested</div>
+        <div class="result-note">${(10 - totalService).toFixed(1)} more years to partial vesting (10 yrs). ${(20 - totalService).toFixed(1)} more years to full vesting (20 yrs).</div>
+        <div class="result-note" style="margin-top:8px">If you leave before reaching 10 years, you receive a <strong>lump sum refund of your employee contributions only</strong>. No monthly pension benefit is payable.</div>
+      </div>`;
+  } else { vestEl.innerHTML = ''; }
+}
+// ============================
+// HELPER: Update contributions
+// ============================
+function updateContributions(avgSalary, totalService, totalContributions) {
+  const contribEl = document.getElementById('contributionResults');
+  if (avgSalary > 0) {
+    const empMonthly = avgSalary * EMPLOYEE_RATE;
+    const cityMonthly = avgSalary * CITY_RATE;
+    contribEl.innerHTML = `
+      <table class="formula-table">
+        <thead><tr><th>Source</th><th>Rate</th><th>Monthly</th><th>Annual</th></tr></thead>
+        <tbody>
+          <tr><td>Your Paycheck Deduction</td><td>12.6%</td><td>${fmt(empMonthly)}</td><td>${fmt(empMonthly * 12)}</td></tr>
+          <tr><td>City of Denton (on your behalf)</td><td>18.5%</td><td>${fmt(cityMonthly)}</td><td>${fmt(cityMonthly * 12)}</td></tr>
+          <tr class="total-row"><td>Total Going Into the Fund</td><td>31.1%</td><td>${fmt(empMonthly + cityMonthly)}</td><td>${fmt((empMonthly + cityMonthly) * 12)}</td></tr>
+        </tbody>
+      </table>
+      ${totalService > 0 ? `
+      <div class="result-grid" style="margin-top:16px">
+        <div class="result-card">
+          <div class="result-label">Your Estimated Contributions to Date</div>
+          <div class="result-value">${fmt0(totalContributions)}</div>
+          <div class="result-note">12.6% &times; ${totalService.toFixed(1)} years (simplified estimate, no interest)</div>
+        </div>
+      </div>` : ''}`;
+  } else {
+    contribEl.innerHTML = '<div class="result-card"><div class="result-note">Adjust the salary slider to see contribution details.</div></div>';
+  }
+}
+// Initialize
+selectType('normal');
+onSalarySlide();
+onServiceSlide();
+recalculate();
+// Sticky banner on scroll
+(function() {
+  const banner = document.getElementById('benefitBanner');
+  const spacer = document.getElementById('bannerSpacer');
+  let bannerTop = 0;
+  let bannerHeight = 0;
+  function measure() {
+    if (!banner.classList.contains('sticky')) {
+      bannerTop = banner.getBoundingClientRect().top + window.scrollY;
+      bannerHeight = banner.offsetHeight;
+    }
+  }
+  function onScroll() {
+    if (window.scrollY > bannerTop + bannerHeight) {
+      if (!banner.classList.contains('sticky')) {
+        spacer.style.height = bannerHeight + 'px';
+        banner.classList.add('sticky');
+      }
+    } else {
+      if (banner.classList.contains('sticky')) {
+        banner.classList.remove('sticky');
+        spacer.style.height = '0';
+      }
+    }
+  }
+  window.addEventListener('load', function() { measure(); onScroll(); });
+  window.addEventListener('resize', function() { banner.classList.remove('sticky'); spacer.style.height = '0'; measure(); onScroll(); });
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
+</script>
+</body>
+</html>
