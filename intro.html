@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DFRRF 101 — Introduction to the Denton Firemen's Relief &amp; Retirement Fund</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1a2744;
+    --navy-light: #243352;
+    --gold: #c8a84e;
+    --gold-light: #e8d08e;
+    --cream: #faf8f2;
+    --warm-gray: #f0ece4;
+    --text: #2c2c2c;
+    --text-light: #5a5a5a;
+    --red-accent: #b03030;
+    --green-accent: #2a7a3a;
+    --blue-accent: #2660a4;
+    --section-gap: 3.5rem;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    line-height: 1.65;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff;
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  }
+  .hero-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 2px;
+    padding: 0.3rem 1rem;
+    margin-bottom: 1.2rem;
+    font-weight: 600;
+  }
+  .hero h1 {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.25;
+    margin-bottom: 0.6rem;
+  }
+  .hero .subtitle {
+    font-size: 1.05rem;
+    font-weight: 300;
+    opacity: 0.85;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  section {
+    padding: var(--section-gap) 0;
+  }
+  section + section {
+    border-top: 1px solid #ddd8cc;
+  }
+
+  h2 {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1rem;
+    line-height: 1.3;
+  }
+
+  h3 {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 1.5rem 0 0.5rem;
+  }
+
+  p {
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .muted { color: var(--text-light); }
+
+  /* ── KEY STATS ROW ── */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .stat-card {
+    background: #fff;
+    border: 1px solid #e0dbd0;
+    border-radius: 6px;
+    padding: 1.1rem 1rem;
+    text-align: center;
+  }
+  .stat-card .number {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: var(--navy);
+    line-height: 1.1;
+  }
+  .stat-card .label {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 0.3rem;
+    line-height: 1.3;
+  }
+
+  /* ── TIMELINE ── */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background: var(--gold);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.2rem;
+    padding-left: 0.5rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.95rem;
+    top: 6px;
+    width: 10px;
+    height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+  }
+  .timeline-year {
+    font-weight: 700;
+    color: var(--navy);
+    font-size: 0.9rem;
+  }
+  .timeline-text {
+    font-size: 0.95rem;
+    color: var(--text);
+    margin: 0;
+  }
+
+  /* ── INFO BOX ── */
+  .info-box {
+    background: #fff;
+    border-left: 4px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 1.2rem 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .info-box.navy-border {
+    border-left-color: var(--navy);
+  }
+
+  /* ── COMPARISON TABLE ── */
+  .comparison-wrap {
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  table.comparison {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    min-width: 600px;
+  }
+  table.comparison thead th {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 700;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  table.comparison thead th:first-child {
+    border-radius: 6px 0 0 0;
+  }
+  table.comparison thead th:last-child {
+    border-radius: 0 6px 0 0;
+  }
+  table.comparison tbody td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid #e8e4da;
+    vertical-align: top;
+  }
+  table.comparison tbody tr:nth-child(even) td {
+    background: var(--warm-gray);
+  }
+  table.comparison tbody tr:last-child td:first-child {
+    border-radius: 0 0 0 6px;
+  }
+  table.comparison tbody tr:last-child td:last-child {
+    border-radius: 0 0 6px 0;
+  }
+  table.comparison .highlight-cell {
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .th-dfrrf { background: var(--navy) !important; }
+  .th-tmrs { background: var(--blue-accent) !important; }
+  .th-401k { background: var(--text-light) !important; }
+
+  /* ── SCENARIO BOX ── */
+  .scenario-box {
+    background: var(--warm-gray);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .scenario-box h4 {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1rem;
+    color: var(--navy);
+    margin-bottom: 0.8rem;
+  }
+  .result-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .result-card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 1rem;
+    text-align: center;
+    border-top: 3px solid var(--navy);
+  }
+  .result-card.tmrs { border-top-color: var(--blue-accent); }
+  .result-card.dc { border-top-color: var(--text-light); }
+  .result-card .plan-name {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-light);
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+  .result-card .amount {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+  .result-card .amount.navy { color: var(--navy); }
+  .result-card .amount.blue { color: var(--blue-accent); }
+  .result-card .amount.gray { color: var(--text-light); }
+  .result-card .note {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    margin-top: 0.3rem;
+  }
+
+  /* ── BOARD TABLE ── */
+  table.board {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    margin: 1rem 0;
+  }
+  table.board th {
+    background: var(--warm-gray);
+    padding: 0.6rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--navy);
+    border-bottom: 2px solid var(--gold);
+  }
+  table.board td {
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid #e8e4da;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: #fff;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    margin-top: var(--section-gap);
+  }
+  .cta-section h2 {
+    color: #fff;
+    margin-bottom: 0.6rem;
+  }
+  .cta-section p {
+    color: rgba(255,255,255,0.8);
+    max-width: 550px;
+    margin: 0 auto 1.5rem;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0.85rem 2rem;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.2s;
+    letter-spacing: 0.5px;
+  }
+  .cta-btn:hover {
+    background: var(--gold-light);
+  }
+  .cta-btn + .cta-btn {
+    margin-left: 1rem;
+  }
+  .cta-secondary {
+    background: transparent;
+    color: var(--gold);
+    border: 1.5px solid var(--gold);
+  }
+  .cta-secondary:hover {
+    background: rgba(200,168,78,0.1);
+    color: var(--gold-light);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    border-top: 1px solid #ddd8cc;
+  }
+
+  /* ── FUNDING COMPARISON ── */
+  .fund-bar-chart {
+    margin: 1.5rem 0;
+  }
+  .fund-bar-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.6rem;
+  }
+  .fund-bar-label {
+    width: 140px;
+    flex-shrink: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text);
+    text-align: right;
+    padding-right: 0.8rem;
+  }
+  .fund-bar-track {
+    flex: 1;
+    height: 26px;
+    background: #e8e4da;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .fund-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    transition: width 0.6s ease;
+  }
+  .fund-bar-fill.denton {
+    background: var(--navy);
+  }
+  .fund-bar-fill.avg {
+    background: var(--text-light);
+  }
+  .fund-bar-fill.top {
+    background: var(--green-accent);
+  }
+  .fund-bar-fill.bottom {
+    background: var(--red-accent);
+  }
+
+  .disclaimer {
+    font-size: 0.78rem;
+    color: var(--text-light);
+    font-style: italic;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e8e4da;
+    line-height: 1.5;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .result-row { grid-template-columns: 1fr; }
+    .fund-bar-label { width: 90px; font-size: 0.75rem; }
+    .cta-btn + .cta-btn { margin-left: 0; margin-top: 0.8rem; display: block; }
+    .cta-btn { display: block; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<header class="hero">
+  <div class="hero-badge">Member Education</div>
+  <h1>Introduction to the Denton Firemen's<br>Relief &amp; Retirement Fund</h1>
+  <p class="subtitle">A plain-language guide to your pension: how it works, where it stands, and what it means for your retirement.</p>
+</header>
+
+<div class="container">
+
+<!-- ════════════════════ WHAT IS THE DFRRF ════════════════════ -->
+<section>
+  <h2>What Is the DFRRF?</h2>
+  <p>The Denton Firemen's Relief and Retirement Fund (DFRRF) is a <strong>defined benefit pension plan</strong> that provides a guaranteed monthly retirement income to Denton firefighters and their survivors. Unlike a 401(k) or similar savings plan, your retirement benefit is calculated by a formula based on your years of service and salary. The fund holds and invests the assets needed to pay those benefits.</p>
+  <p>The DFRRF is a single-employer plan, which means it covers only Denton firefighters. It is entirely separate from the Texas Municipal Retirement System (TMRS) that covers other City of Denton employees. The fund is governed by its own local Board of Trustees and managed by a dedicated fund administrator.</p>
+
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="number">~$187M</div>
+      <div class="label">Total Fund Assets<br>(Jan. 2026)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">91.2%</div>
+      <div class="label">Funded Ratio<br>(12/31/2023 Valuation)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">6.5 yrs</div>
+      <div class="label">Amortization Period<br>(Unfunded Liability)</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">2.59%</div>
+      <div class="label">Benefit Rate<br>(Per Year of Service)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ HISTORY ════════════════════ -->
+<section>
+  <h2>How Did Our Pension Come to Be?</h2>
+  <p>Texas firefighters have had locally governed pension systems since 1937. The DFRRF exists because of a specific Texas state law that gives fire departments the authority to create and run their own retirement plans. The following explains the law, the oversight agencies, and the organizations involved.</p>
+
+  <h3>The Texas Local Fire Fighters Retirement Act (TLFFRA)</h3>
+  <p>The law that authorizes our fund was originally passed in 1937 by the 45th Texas Legislature under the name "Firemen's Relief and Retirement Fund." In 1989, it was restated under Article 6243e of the Texas Civil Statutes and renamed the Texas Local Fire Fighters Retirement Act, or TLFFRA. Today, 42 retirement systems across Texas operate under this law.</p>
+  <p>TLFFRA provides general guardrails for fund management (including some investment restrictions), but it leaves most decisions about plan design, contribution rates, benefit levels, and specific investments to each system's local board. Board composition is set by statute: a mix of active firefighter trustees elected by members and appointees from the city. TLFFRA systems are entirely locally funded, meaning the money comes from member and city contributions plus investment returns. There is no state backstop.</p>
+
+  <h3>The Texas Pension Review Board (PRB)</h3>
+  <p>The PRB was established in 1979 as the state's oversight body for public retirement systems. It monitors the financial and actuarial health of 99 actuarially funded defined benefit plans in Texas, including all 42 TLFFRA systems, along with roughly 250 smaller defined contribution and volunteer plans. The PRB does not manage or invest fund assets. Its role is to review actuarial soundness, enforce reporting requirements under Chapter 802 of the Texas Government Code, provide technical assistance, and recommend policy and legislation. The PRB also runs the mandatory trustee education program (the Minimum Educational Training, or MET, that every trustee must complete).</p>
+
+  <h3>TEXPERS</h3>
+  <p>The Texas Association of Public Employee Retirement Systems (TEXPERS) is a nonprofit membership organization that represents the interests of public pension funds across Texas. TEXPERS provides continuing education, legislative advocacy, and networking for trustees and administrators. The DFRRF is a TEXPERS member system, and our trustees attend the annual TEXPERS conference for education and peer benchmarking.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <span class="timeline-year">1937</span>
+      <p class="timeline-text">Texas Legislature creates the Firemen's Relief and Retirement Fund law, allowing local fire departments to establish their own pension systems.</p>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">1979</span>
+      <p class="timeline-text">Texas Pension Review Board (PRB) established as the state oversight agency for all public retirement systems.</p>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">1989</span>
+      <p class="timeline-text">The law is restated under Article 6243e and renamed the Texas Local Fire Fighters Retirement Act (TLFFRA).</p>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">2011</span>
+      <p class="timeline-text">DFRRF benefit rate set at 2.59% per year of service (Plan Document Section B.2, effective January 1, 2011).</p>
+    </div>
+    <div class="timeline-item">
+      <span class="timeline-year">2023</span>
+      <p class="timeline-text">Current Meet and Confer agreement (Ordinance 2023-1643) codifies the 18.5% city contribution floor, 6.75% assumed rate of return, and closed 25-year amortization target.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ FUND HEALTH ════════════════════ -->
+<section>
+  <h2>How Healthy Is Our Fund?</h2>
+  <p>The two most important measures of a pension fund's health are its <strong>funded ratio</strong> (how much of the promised benefits is backed by current assets) and its <strong>amortization period</strong> (how long it would take to pay off any remaining shortfall at current contribution levels).</p>
+
+  <div class="info-box">
+    <strong>What do these numbers mean?</strong> A funded ratio of 100% means the fund has enough assets right now to cover all benefits earned to date. An amortization period below 25 years means the fund is on track to close the gap in a reasonable timeframe. The PRB considers 30 years the maximum acceptable period; anything above that can trigger a Funding Soundness Restoration Plan (FSRP).
+  </div>
+
+  <p>As of the December 31, 2023 actuarial valuation, the DFRRF sits at a 91.15% funded ratio with a 6.5-year amortization period. That places Denton among the strongest TLFFRA systems in Texas. For context, the aggregate funded ratio across all 42 TLFFRA systems was approximately 62% in fiscal year 2023, and 12 of the 42 systems had amortization periods above 30 years.</p>
+
+  <h3>Denton vs. the TLFFRA Landscape</h3>
+
+  <div class="fund-bar-chart">
+    <div class="fund-bar-row">
+      <div class="fund-bar-label">Denton (DFRRF)</div>
+      <div class="fund-bar-track">
+        <div class="fund-bar-fill denton" style="width:91.15%">91.2%</div>
+      </div>
+    </div>
+    <div class="fund-bar-row">
+      <div class="fund-bar-label">Amarillo</div>
+      <div class="fund-bar-track">
+        <div class="fund-bar-fill top" style="width:95.18%">95.2%</div>
+      </div>
+    </div>
+    <div class="fund-bar-row">
+      <div class="fund-bar-label">Irving</div>
+      <div class="fund-bar-track">
+        <div class="fund-bar-fill top" style="width:87.75%">87.8%</div>
+      </div>
+    </div>
+    <div class="fund-bar-row">
+      <div class="fund-bar-label">TLFFRA Average</div>
+      <div class="fund-bar-track">
+        <div class="fund-bar-fill avg" style="width:62%">~62%</div>
+      </div>
+    </div>
+    <div class="fund-bar-row">
+      <div class="fund-bar-label">Marshall</div>
+      <div class="fund-bar-track">
+        <div class="fund-bar-fill bottom" style="width:37.09%">37.1%</div>
+      </div>
+    </div>
+  </div>
+  <p class="muted" style="font-size:0.82rem;">Funded ratios from most recent actuarial valuations as reported in the 2026 PRB TLFFRA Report. Amarillo and Irving shown as top-performing peers; Marshall shown for scale.</p>
+
+  <h3>Conservative Assumptions</h3>
+  <p>One reason Denton's numbers are strong: the fund uses a 6.75% assumed rate of return on investments, the lowest among all 42 TLFFRA systems. The TLFFRA-wide average assumed rate is 7.28%. A lower assumed return means the fund calculates its liabilities more conservatively, which produces a more honest picture of where things stand. When actual investment returns exceed 6.75%, the surplus goes directly toward paying down the unfunded liability faster.</p>
+
+  <div class="info-box navy-border">
+    <strong>The Meet and Confer Protection:</strong> Under the current agreement (Article 12, Ordinance 2023-1643), the City's contribution rate cannot drop below 18.5% until the amortization period reaches 20 years or less. Any actuarial gains are used to pay down the unfunded liability rather than reduce contributions. This is a structural safeguard that prioritizes long-term fund health.
+  </div>
+</section>
+
+<!-- ════════════════════ YOUR BENEFIT ════════════════════ -->
+<section>
+  <h2>How Your Benefit Is Calculated</h2>
+  <p>The DFRRF benefit formula has three inputs:</p>
+
+  <div class="scenario-box" style="text-align:center;">
+    <p style="font-family:'Merriweather',Georgia,serif; font-size:1.2rem; font-weight:700; color:var(--navy); margin:0;">
+      Years of Service &times; 2.59% &times; Final Average Salary = Monthly Benefit
+    </p>
+    <p style="font-size:0.85rem; color:var(--text-light); margin:0.5rem 0 0;">
+      Final Average Salary = average of your highest 36 consecutive months of compensation
+    </p>
+  </div>
+
+  <h3>Key Provisions</h3>
+  <div class="comparison-wrap">
+    <table class="board">
+      <tr><th style="width:40%;">Provision</th><th>Details</th></tr>
+      <tr><td>Normal Retirement</td><td>Age 50 with 20 years of credited service</td></tr>
+      <tr><td>Benefit Rate</td><td>2.59% of Final Average Salary per year of service</td></tr>
+      <tr><td>Final Average Salary</td><td>Highest 36 consecutive months</td></tr>
+      <tr><td>Default Payment Form</td><td>Joint and Two-Thirds to Surviving Spouse</td></tr>
+      <tr><td>Vesting</td><td>Fully vested at 20 years; partially vested at 10 years</td></tr>
+      <tr><td>Member Contribution</td><td>12.6% of covered pay (paycheck deduction)</td></tr>
+      <tr><td>City Contribution</td><td>18.5% of compensation (separate from member deduction)</td></tr>
+      <tr><td>Retro DROP</td><td>Available at age 52 with 22 years; max 48 months of lump sum accumulation</td></tr>
+      <tr><td>COLA</td><td>Ad hoc, based on the financial condition of the fund as determined by the actuary</td></tr>
+      <tr><td>Social Security</td><td>Yes. Denton firefighters participate in Social Security in addition to the DFRRF pension.</td></tr>
+    </table>
+  </div>
+
+  <p><strong>A note on contributions:</strong> The 12.6% deducted from your paycheck is your member contribution. The 18.5% the City contributes is a separate, additional amount paid by the City on top of your salary. These are two distinct funding streams, not the same money.</p>
+</section>
+
+<!-- ════════════════════ COMPARISON ════════════════════ -->
+<section>
+  <h2>DFRRF vs. TMRS vs. a Typical 401(k)</h2>
+  <p>Denton firefighters are sometimes asked, "Wouldn't you be better off with a 401(k)?" or "How does your pension compare to what other City employees get?" The table below lines up the three types of retirement plans side by side.</p>
+
+  <div class="comparison-wrap">
+    <table class="comparison">
+      <thead>
+        <tr>
+          <th style="width:28%;">Feature</th>
+          <th class="th-dfrrf" style="width:24%;">DFRRF<br><span style="font-weight:400;text-transform:none;font-size:0.72rem;">Denton Firefighters</span></th>
+          <th class="th-tmrs" style="width:24%;">TMRS<br><span style="font-weight:400;text-transform:none;font-size:0.72rem;">Other City Employees</span></th>
+          <th class="th-401k" style="width:24%;">Typical 401(k)<br><span style="font-weight:400;text-transform:none;font-size:0.72rem;">Private Sector</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Plan Type</strong></td>
+          <td>Defined Benefit</td>
+          <td>Hybrid (cash balance + annuity at retirement)</td>
+          <td>Defined Contribution</td>
+        </tr>
+        <tr>
+          <td><strong>Benefit Guarantee</strong></td>
+          <td class="highlight-cell">Yes, formula-based</td>
+          <td>Annuity at retirement based on accumulated balance</td>
+          <td>No guarantee; depends on market</td>
+        </tr>
+        <tr>
+          <td><strong>Employee Contribution</strong></td>
+          <td>12.6% of pay</td>
+          <td>7% of pay</td>
+          <td>Typically 6 to 10% (voluntary)</td>
+        </tr>
+        <tr>
+          <td><strong>Employer Contribution</strong></td>
+          <td>18.5% of pay (minimum)</td>
+          <td>~11.2% of pay (actuarially determined, 2:1 match at retirement)</td>
+          <td>Typically 3 to 6% match</td>
+        </tr>
+        <tr>
+          <td><strong>Retirement Eligibility</strong></td>
+          <td>Age 50 + 20 years</td>
+          <td>Age 60 + 5 years, or 20 years at any age</td>
+          <td>Age 59&frac12; (penalty-free withdrawals)</td>
+        </tr>
+        <tr>
+          <td><strong>Benefit Formula</strong></td>
+          <td>2.59% &times; FAS &times; years of service</td>
+          <td>Annuity purchased from accumulated contributions + city matching credits + interest</td>
+          <td>Whatever your account balance buys at retirement</td>
+        </tr>
+        <tr>
+          <td><strong>Investment Risk</strong></td>
+          <td class="highlight-cell">Fund bears the risk</td>
+          <td>TMRS bears the risk (pooled statewide)</td>
+          <td>Employee bears all risk</td>
+        </tr>
+        <tr>
+          <td><strong>Longevity Protection</strong></td>
+          <td class="highlight-cell">Lifetime payments; cannot outlive benefit</td>
+          <td>Lifetime annuity</td>
+          <td>Account can be depleted</td>
+        </tr>
+        <tr>
+          <td><strong>Social Security</strong></td>
+          <td class="highlight-cell">Yes</td>
+          <td>Yes</td>
+          <td>Yes</td>
+        </tr>
+        <tr>
+          <td><strong>Survivor Benefits</strong></td>
+          <td>Joint &amp; 2/3 to spouse (default); death-in-service benefits</td>
+          <td>Optional survivor annuity</td>
+          <td>Beneficiary inherits account balance</td>
+        </tr>
+        <tr>
+          <td><strong>Portability</strong></td>
+          <td>Partially vested benefit after 10 years; refund of contributions if &lt;10 years</td>
+          <td>Vested after 5 years; refund option</td>
+          <td>Fully portable; rolls to IRA</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Side-by-Side Hypothetical: 25 Years of Service</h3>
+
+  <div class="scenario-box">
+    <h4>Scenario Assumptions</h4>
+    <p style="font-size:0.9rem; margin-bottom:0.8rem;">A firefighter hired at age 25, retiring at age 50 with 25 years of service. Final average salary of $90,000 per year. For the TMRS estimate, we assume a 7% employee contribution with a 2:1 city match at retirement, credited with 5% annual interest, purchasing an annuity at standard TMRS rates. For the 401(k), we assume a 7% employee contribution with a 4% employer match on a $90,000 salary, growing at a 7% annual average return, converted to an annuity using the 4% rule.</p>
+
+    <div class="result-row">
+      <div class="result-card">
+        <div class="plan-name">DFRRF Pension</div>
+        <div class="amount navy">$5,828/mo</div>
+        <div class="note">25 yrs &times; 2.59% &times; $90,000 &divide; 12</div>
+        <div class="note">Guaranteed for life</div>
+      </div>
+      <div class="result-card tmrs">
+        <div class="plan-name">TMRS Estimate</div>
+        <div class="amount blue">~$2,800/mo</div>
+        <div class="note">Annuity from accumulated balance</div>
+        <div class="note">+ Social Security at age 62+</div>
+      </div>
+      <div class="result-card dc">
+        <div class="plan-name">401(k) Estimate</div>
+        <div class="amount gray">~$2,100/mo</div>
+        <div class="note">4% withdrawal from ~$630K balance</div>
+        <div class="note">+ Social Security at age 62+</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <strong>Why the DFRRF number is higher:</strong> Two reasons stand out. First, the total contribution rate going into the DFRRF is 31.1% of pay (12.6% member + 18.5% city). That is substantially more than what goes into a typical TMRS account (7% member + ~11% city) or a 401(k) (7% employee + ~4% employer). Second, the defined benefit formula guarantees a specific income for life regardless of market conditions. A 401(k) participant who retires into a down market may need to withdraw less or risk running out of money.
+  </div>
+
+  <div class="info-box navy-border">
+    <strong>The Social Security factor:</strong> Denton firefighters do not participate in Social Security. TMRS members and 401(k) participants do, which adds an estimated $1,500 to $2,500 per month at full retirement age. When Social Security is included, the total retirement income gap narrows, but the DFRRF benefit still typically produces higher combined income at earlier ages because our members can retire at 50, well before Social Security kicks in.
+  </div>
+
+  <p class="disclaimer"><strong>Important:</strong> These estimates are simplified illustrations, not benefit projections. Actual TMRS benefits depend on credited interest and annuity factors at the time of retirement. Actual 401(k) balances depend on contribution rates, investment returns, and fees. Social Security benefits vary by earnings history. Consult the pension portal, TMRS member services, or a qualified financial advisor for personalized projections.</p>
+</section>
+
+<!-- ════════════════════ BOARD & PROVIDERS ════════════════════ -->
+<section>
+  <h2>Board of Trustees &amp; Service Providers</h2>
+  <p>The DFRRF is governed by a Board of Trustees responsible for managing fund assets, setting investment policy, and ensuring benefits are paid as promised. Board meetings are held the third Wednesday of each month at 8:30 AM at Central Fire Station (332 E. Hickory St., Denton).</p>
+
+  <h3>Board of Trustees</h3>
+  <div class="comparison-wrap">
+    <table class="board">
+      <tr><th>Name</th><th>Role</th></tr>
+      <tr><td>Gerrad Friend</td><td>Chair</td></tr>
+      <tr><td>Derek Oswald</td><td>Vice Chair</td></tr>
+      <tr><td>Hunter Lott</td><td>Secretary / Trustee</td></tr>
+      <tr><td>Dick Smith</td><td>Trustee</td></tr>
+      <tr><td>Charlie Parker</td><td>Trustee</td></tr>
+      <tr><td>Tony Clark</td><td>Mayor's Appointee Trustee</td></tr>
+      <tr><td>Matthew Hamilton</td><td>Director of Finance Trustee</td></tr>
+    </table>
+  </div>
+
+  <h3>Service Providers</h3>
+  <div class="comparison-wrap">
+    <table class="board">
+      <tr><th>Role</th><th>Provider</th></tr>
+      <tr><td>Fund Administrator</td><td>Gary Calmes</td></tr>
+      <tr><td>Recording Secretary</td><td>Sarah Lollar</td></tr>
+      <tr><td>Actuary</td><td>Rudd &amp; Wisdom, Inc. (Mark Fenlaw, Co-Principal Actuary)</td></tr>
+      <tr><td>Investment Advisor</td><td>Garnett Advisors, LLC (Bill Coleman)</td></tr>
+      <tr><td>Custodian</td><td>Frost Bank</td></tr>
+      <tr><td>Property Manager</td><td>NorthBridge Management (Rebecca Andreasen, RPA&reg;)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ════════════════════ RESOURCES ════════════════════ -->
+<section>
+  <h2>Resources for Members</h2>
+  <p>Two tools are available to help you understand and track your benefits.</p>
+
+  <div class="info-box">
+    <strong>Pension Portal:</strong> Your personal account information, benefit statements, and plan documents are available at <a href="https://dentonfirepension.com/Home.aspx" target="_blank" rel="noopener" style="color:var(--navy);font-weight:600;">dentonfirepension.com</a>. If you have not logged in before, contact Gary Calmes for your credentials.
+  </div>
+
+  <div class="info-box navy-border">
+    <strong>Retirement Benefit <a href="https://dentonfire.github.io/Denton_Firemen-s_Pension/" target="_blank" rel="noopener" style="color:var(--navy);">Calculator</a>:</strong> Estimate your monthly benefit under different scenarios, including years of service, salary levels, and Retro DROP options.
+  </div>
+</section>
+
+</div><!-- /container -->
+
+<!-- ════════════════════ CTA ════════════════════ -->
+<div class="cta-section">
+  <div class="container">
+    <h2>Run Your Numbers</h2>
+    <p>Use the retirement benefit calculator to see what your pension could look like based on your years of service and salary.</p>
+    <a href="https://dentonfire.github.io/Denton_Firemen-s_Pension/" target="_blank" rel="noopener" class="cta-btn">Open the Calculator</a>
+    <a href="https://lp.constantcontactpages.com/sl/YZDxyEQ/pension" target="_blank" rel="noopener" class="cta-btn cta-secondary">Subscribe to the Newsletter</a>
+  </div>
+</div>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer class="footer">
+  <p>Denton Firemen's Relief &amp; Retirement Fund &nbsp;|&nbsp; Governed under TLFFRA (Article 6243e, Vernon Texas Civil Statutes)</p>
+  <p>This document is for educational purposes only. It is not a legal summary of plan provisions. In the event of any conflict between this document and the official Plan Document, the Plan Document controls.</p>
+  <p style="margin-top:0.5rem;">Questions? Contact Fund Administrator Gary Calmes at <span style="unicode-bidi:bidi-override;direction:ltr;">gary&#64;dentonfirepension.com</span></p>
+</footer>
+
+</body>
+</html>
