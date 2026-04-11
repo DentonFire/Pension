@@ -24,13 +24,16 @@ The site complements (but does not replace) the official pension portal at dento
 /
 ├── index.html          # Home page (DFRRF 101 overview)
 ├── Team.html           # Board of Trustees and Service Providers
-├── Documents.html      # Document Library (Plan Document, IPS, etc.)
-├── Newsletter.html     # Newsletter signup and archive
+├── Resources.html      # Documents, reports, and newsletter (combined)
+├── styles.css          # Shared stylesheet (all pages link here)
+├── Documents.html      # Redirect → Resources.html (preserves old bookmarks)
+├── Newsletter.html     # Redirect → Resources.html#newsletter (preserves old bookmarks)
+├── Calculator.html     # Retirement benefit calculator
 ├── dfd-crest.png       # DFD logo (flags, courthouse, maltese cross)
 └── README.md           # This file
 ```
 
-All pages are self-contained HTML files with embedded CSS. No external stylesheets or JavaScript libraries required.
+All pages link to a single shared `styles.css` file. No external JavaScript libraries required. Design changes are made in one place.
 
 ---
 
@@ -51,19 +54,15 @@ Board and service provider directory:
 - Gary Calmes (Fund Administrator) and Bill Coleman (Investment Advisor) featured prominently
 - Additional service providers: Recording Secretary, Actuary, Custodian, Property Manager
 
-### Documents.html
-Links to governing documents:
-- Plan Document (via pension portal)
-- Investment Policy Statement
-- Meet and Confer Agreement (Ordinance 2023-1643)
-- TLFFRA statute
-- 2026 TLFFRA Report
+### Resources.html
+Combined documents and newsletter page:
+- Governing documents: Plan Document, IPS, Meet and Confer, TLFFRA statute
+- Reports & Studies: 2026 TLFFRA Report
+- Newsletter signup (Constant Contact) and past issue archive
+- Anchor `#newsletter` links directly to the newsletter section
 
-### Newsletter.html
-Newsletter information:
-- Signup link (Constant Contact)
-- Archive of past issues
-- Contact information for Gary Calmes
+### Documents.html / Newsletter.html (Redirects)
+These files now redirect to Resources.html (and Resources.html#newsletter) to preserve any bookmarks or shared links from the previous site structure.
 
 ---
 
@@ -89,8 +88,8 @@ Newsletter information:
 ### Components
 - **Stat cards:** Hover lift effect with gold border highlight
 - **Info boxes:** Left border accent (gold or navy)
-- **Team cards:** Rectangular photos (210×270px) with rounded corners
-- **Navigation:** Fixed top bar with slide-out drawer on mobile
+- **Team cards:** Circular avatar photos (72px) with rounded corners
+- **Navigation:** Fixed top bar with horizontal links on desktop (769px+), slide-out drawer on mobile
 - **QR FAB:** Floating button in bottom-right for quick site sharing
 
 ### Logo Usage
@@ -99,7 +98,7 @@ Newsletter information:
 - **Page headers (subpages):** Centered, 100px wide
 - **Watermark:** Centered fixed background, 4% opacity
 - **Favicon:** Separate DFD badge hosted on Constant Contact CDN
-- **Navbar brand:** 34×34px square badge (Constant Contact CDN)
+- **Navbar brand:** 34x34px square badge (Constant Contact CDN)
 
 ---
 
@@ -168,7 +167,7 @@ Edit Team.html to add, remove, or update trustees. Each trustee card follows thi
 Photos should be hosted on Constant Contact or another reliable CDN.
 
 ### Adding Newsletter Issues
-Edit Newsletter.html to add new issues to the archive:
+Edit Resources.html to add new issues to the newsletter archive section:
 ```html
 <div class="newsletter-issue">
   <div class="issue-info">
@@ -181,7 +180,7 @@ Edit Newsletter.html to add new issues to the archive:
 ```
 
 ### Updating Documents
-Edit Documents.html to add or update document links. Use the `doc-card` component:
+Edit Resources.html to add or update document links. Use the `doc-card` component:
 ```html
 <a class="doc-card" href="[URL]" target="_blank" rel="noopener">
   <div class="doc-icon pdf">PDF</div>
@@ -198,7 +197,7 @@ Edit Documents.html to add or update document links. Use the `doc-card` componen
 
 ### Benefit Formula
 ```
-Monthly Benefit = Years of Service × 2.59% × Final Average Salary ÷ 12
+Monthly Benefit = Years of Service x 2.59% x Final Average Salary / 12
 ```
 - **Benefit Rate:** 2.59% per year of service (Plan Document Section B.2, effective January 1, 2011)
 - **Final Average Salary (FAS):** Average of highest 36 consecutive months
@@ -269,6 +268,7 @@ This website is for educational purposes only. It is not a legal summary of plan
 | April 2026 | Initial release with 4-page site structure |
 | April 2026 | Updated branding with DFD crest logo |
 | April 2026 | Reorganized Team page with rectangular photo layout |
+| April 2026 | Extracted shared CSS into styles.css, added visible desktop navigation, combined Documents + Newsletter into Resources page |
 
 ---
 
