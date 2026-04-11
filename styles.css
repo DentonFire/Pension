@@ -105,7 +105,6 @@ body {
   opacity: .5;
   margin-left: 2px;
 }
-
 /* --- Hamburger (visible <769px) --- */
 .hamburger {
   width: 42px; height: 42px;
@@ -170,7 +169,6 @@ body {
   letter-spacing: 2px; color: var(--gold);
   padding: 16px 24px 6px; font-weight: 700;
 }
-
 /* ============================================================
    LAYOUT
    ============================================================ */
@@ -257,7 +255,6 @@ p { margin-bottom: 1rem; color: var(--text); }
   font-size: .95rem; font-weight: 300;
   opacity: .8; max-width: 550px; margin: 0 auto;
 }
-
 /* ============================================================
    STAT CARDS
    ============================================================ */
@@ -354,7 +351,6 @@ table.comparison .highlight-cell { font-weight: 700; color: var(--navy); }
 .th-dfrrf { background: var(--navy) !important; }
 .th-tmrs  { background: var(--blue-accent) !important; }
 .th-401k  { background: var(--text-light) !important; }
-
 table.board {
   width: 100%; border-collapse: collapse;
   font-size: .9rem; margin: 1rem 0;
@@ -441,35 +437,100 @@ table.board td {
 .fund-bar-fill.good    { background: linear-gradient(90deg, var(--green-accent), #3a9a4a); }
 .fund-bar-fill.caution { background: linear-gradient(90deg, #d4a012, #e8b832); }
 .fund-bar-fill.warning { background: linear-gradient(90deg, var(--red-accent), #c04040); }
-
 /* ============================================================
-   TEAM CARDS
+   TEAM CARDS — Rectangular, B&W → color on hover
    ============================================================ */
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
   gap: 1.2rem; margin: 1.5rem 0;
 }
 .team-card {
   background: #fff; border: 1px solid #e0dbd0;
-  border-radius: 8px; padding: 1.2rem 1rem;
+  border-radius: 10px; padding: 1.2rem 1rem;
   text-align: center;
-  transition: transform .3s, box-shadow .3s, border-color .3s;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
 }
 .team-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(26,39,68,.12);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(26,39,68,.18);
   border-color: var(--gold);
 }
 .team-avatar {
-  width: 72px; height: 72px;
-  border-radius: 50%; margin: 0 auto .8rem;
+  width: 120px; height: 150px;
+  border-radius: 8px; margin: 0 auto .8rem;
   background: var(--warm-gray); overflow: hidden;
   border: 2px solid var(--gold);
 }
-.team-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.team-avatar img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter .4s ease;
+}
+.team-card:hover .team-avatar img {
+  filter: grayscale(0%);
+}
 .team-name { font-weight: 700; color: var(--navy); font-size: .95rem; margin-bottom: .15rem; }
 .team-role { font-size: .78rem; color: var(--text-light); }
+
+/* ============================================================
+   FEATURED SERVICE PROVIDER CARDS (Gary & Bill)
+   ============================================================ */
+.featured-providers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.2rem; margin: 1.5rem 0;
+}
+.featured-card {
+  background: #fff; border: 1px solid #e0dbd0;
+  border-radius: 10px; padding: 1.5rem;
+  display: flex; gap: 1.5rem; align-items: flex-start;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.featured-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(26,39,68,.18);
+  border-color: var(--gold);
+}
+.featured-avatar {
+  width: 120px; height: 150px;
+  border-radius: 8px; overflow: hidden;
+  border: 2px solid var(--gold);
+  flex-shrink: 0;
+  background: var(--warm-gray);
+}
+.featured-avatar img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(100%);
+  transition: filter .4s ease;
+}
+.featured-card:hover .featured-avatar img {
+  filter: grayscale(0%);
+}
+.featured-info { flex: 1; }
+.featured-role {
+  font-size: .72rem; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--gold);
+  font-weight: 700; margin-bottom: .4rem;
+}
+.featured-name {
+  font-weight: 700; color: var(--navy);
+  font-size: 1.1rem; margin-bottom: .2rem;
+}
+.featured-org-label {
+  font-size: .8rem; color: var(--text-light);
+  font-style: italic; margin-bottom: .3rem;
+}
+.featured-desc {
+  font-size: .88rem; color: var(--text-light); line-height: 1.5;
+  margin-bottom: .6rem;
+}
+.featured-contact a {
+  color: var(--navy); font-size: .85rem; font-weight: 600;
+  text-decoration: none; border-bottom: 1px solid var(--gold);
+  transition: color .2s;
+}
+.featured-contact a:hover { color: var(--gold); }
 
 /* ============================================================
    SERVICE PROVIDER CARDS
@@ -503,7 +564,6 @@ table.board td {
   flex-shrink: 0; border: 1px solid var(--gold);
 }
 .provider-photo img { width: 100%; height: 100%; object-fit: cover; }
-
 /* ============================================================
    DOCUMENT CARDS
    ============================================================ */
@@ -619,7 +679,6 @@ table.board td {
 .cta-btn.cta-secondary:hover {
   background: var(--gold); color: var(--navy);
 }
-
 /* ============================================================
    FOOTER
    ============================================================ */
@@ -711,6 +770,9 @@ table.board td {
   .cta-btn + .cta-btn { margin-left: 0; margin-top: .8rem; display: block; }
   .cta-btn { display: block; }
   .team-grid { grid-template-columns: 1fr 1fr; }
+  .featured-providers { grid-template-columns: 1fr; }
+  .featured-card { flex-direction: column; align-items: center; text-align: center; }
+  .featured-avatar { width: 140px; height: 175px; }
   .provider-grid { grid-template-columns: 1fr; }
   .doc-grid { grid-template-columns: 1fr; }
   .nav-brand-text { font-size: .82rem; }
