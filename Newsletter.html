@@ -2,7 +2,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/png" href="https://files.constantcontact.com/3720c3fd901/10017eb4-f7d2-424d-92ed-c1b5424b9869.png">
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&amp;family=Source+Sans+3:wght@300;400;600;700&amp;display=swap" rel="stylesheet">
 <title>Newsletter — DFRRF 101</title>
 <style>
 :root{--navy:#1a2744;--navy-light:#243352;--gold:#c8a84e;--gold-light:#e8d08e;--gold-dim:rgba(200,168,78,0.15);--cream:#faf8f2;--warm-gray:#f0ece4;--text:#2c2c2c;--text-light:#5a5a5a;--red-accent:#b03030;--green-accent:#2a7a3a;--blue-accent:#2660a4;--section-gap:3.5rem}
@@ -37,7 +37,7 @@ h3{font-family:'Source Sans 3',sans-serif;font-size:1.1rem;font-weight:700;color
 p{margin-bottom:1rem;color:var(--text)}
 .muted{color:var(--text-light)}
 .hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;padding:3rem 1.5rem;text-align:center;position:relative;overflow:hidden}
-.hero-crest{position:absolute;left:3.5rem;top:calc(50% - .5rem);transform:translateY(-50%);width:180px;height:auto;opacity:.9;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3))}
+.hero-crest{position:absolute;left:3.5rem;top:calc(50% - .5rem);transform:translateY(-50%);width:180px;height:auto;opacity:.9;pointer-events:none;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));border-radius:0}
 @media(max-width:800px){.hero-crest{display:none}}
 .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold))}
 .hero-badge{display:inline-block;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:.3rem 1rem;margin-bottom:1.2rem;font-weight:600}
@@ -81,66 +81,44 @@ table.board td{padding:.55rem 1rem;border-bottom:1px solid #e8e4da}
 .result-card .plan-name{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-light);margin-bottom:.3rem;font-weight:600}
 .result-card .amount{font-family:'Merriweather',Georgia,serif;font-size:1.5rem;font-weight:900;line-height:1.1}
 .result-card .amount.navy{color:var(--navy)}.result-card .amount.blue{color:var(--blue-accent)}.result-card .amount.gray{color:var(--text-light)}
-.result-card .note{font-size:.78rem;color:var(--text-light);margin-top:.3rem}
-.fund-bar-chart{margin:1.5rem 0}
-.fund-bar-row{display:flex;align-items:center;margin-bottom:.6rem}
-.fund-bar-label{width:140px;flex-shrink:0;font-size:.82rem;font-weight:600;color:var(--text);text-align:right;padding-right:.8rem}
-.fund-bar-track{flex:1;height:26px;background:#e8e4da;border-radius:3px;overflow:hidden;position:relative}
-.fund-bar-fill{height:100%;border-radius:3px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.75rem;font-weight:700;color:#fff;transition:width .6s ease}
-.fund-bar-fill.denton{background:var(--navy)}.fund-bar-fill.avg{background:var(--text-light)}.fund-bar-fill.top{background:var(--green-accent)}.fund-bar-fill.bottom{background:var(--red-accent)}
-.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1.2rem;margin:1.5rem 0}
-.team-card{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:1.5rem 1.2rem;text-align:center;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;cursor:default}
-.team-card:hover{transform:translateY(-5px);box-shadow:0 8px 24px rgba(26,39,68,.15);border-color:var(--gold)}
-.team-avatar{width:80px;height:80px;border-radius:50%;background:var(--navy);color:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Merriweather',Georgia,serif;font-size:1.4rem;font-weight:900;margin:0 auto .8rem;border:3px solid var(--gold);overflow:hidden}
-.team-avatar img{width:100%;height:100%;object-fit:cover}
-.team-card .team-name{font-family:'Merriweather',Georgia,serif;font-weight:700;font-size:1rem;color:var(--navy);margin-bottom:.2rem}
-.team-card .team-role{font-size:.78rem;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem}
-.provider-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin:1.5rem 0}
-.provider-card{background:#fff;border:1px solid #e0dbd0;border-left:4px solid var(--navy);border-radius:0 6px 6px 0;padding:1.1rem 1.3rem;transition:transform .3s ease,box-shadow .3s ease}
-.provider-card:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(26,39,68,.12)}
-.provider-card .provider-role{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--gold);font-weight:700;margin-bottom:.3rem}
-.provider-card .provider-name{font-family:'Merriweather',Georgia,serif;font-weight:700;font-size:.95rem;color:var(--navy);margin-bottom:.15rem}
-.provider-card .provider-org{font-size:.85rem;color:var(--text-light)}
-.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin:1.5rem 0}
-.doc-card{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:1.3rem;display:flex;gap:1rem;align-items:flex-start;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;text-decoration:none;color:var(--text);cursor:pointer}
-.doc-card:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(26,39,68,.14);border-color:var(--gold)}
-.doc-icon{width:42px;height:42px;border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700}
-.doc-icon.pdf{background:#fde8e8;color:var(--red-accent)}.doc-icon.link{background:var(--gold-dim);color:var(--gold)}
-.doc-card .doc-title{font-weight:700;font-size:.92rem;color:var(--navy);margin-bottom:.15rem}
-.doc-card .doc-desc{font-size:.82rem;color:var(--text-light);line-height:1.4}
-.newsletter-block{background:#fff;border:2px solid var(--gold);border-radius:10px;padding:2.5rem 2rem;text-align:center;margin:2rem 0}
-.newsletter-block h2{margin-bottom:.6rem}
-.newsletter-block p{max-width:550px;margin:0 auto 1.5rem}
-.newsletter-archive{margin:1.5rem 0}
-.newsletter-issue{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:1.3rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;transition:transform .3s,box-shadow .3s,border-color .3s;margin-bottom:.8rem}
-.newsletter-issue:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(26,39,68,.12);border-color:var(--gold)}
-.newsletter-issue .issue-info{flex:1}
-.newsletter-issue .issue-num{font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:.15rem}
-.newsletter-issue .issue-title{font-family:'Merriweather',Georgia,serif;font-weight:700;font-size:.95rem;color:var(--navy);margin-bottom:.15rem}
-.newsletter-issue .issue-desc{font-size:.82rem;color:var(--text-light);line-height:1.4}
-.newsletter-issue .issue-link{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:var(--navy);color:#fff;text-decoration:none;font-size:.8rem;font-weight:700;padding:.55rem 1.1rem;border-radius:4px;transition:background .2s;white-space:nowrap}
-.newsletter-issue .issue-link:hover{background:var(--navy-light)}
-.cta-section{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;padding:2.5rem 1.5rem;text-align:center;margin-top:var(--section-gap)}
+.result-card .note{font-size:.75rem;color:var(--text-light);margin-top:.4rem}
+.fund-bar-wrap{margin:1.5rem 0}.fund-bar-row{display:flex;align-items:center;margin-bottom:.6rem}.fund-bar-label{width:110px;font-size:.8rem;color:var(--text-light);flex-shrink:0}
+.fund-bar-track{flex:1;height:22px;background:#e8e4da;border-radius:4px;overflow:hidden;position:relative}
+.fund-bar-fill{height:100%;border-radius:4px 0 0 4px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:.7rem;font-weight:700;color:#fff;transition:width .6s ease}
+.fund-bar-fill.good{background:linear-gradient(90deg,var(--green-accent),#3a9a4a)}.fund-bar-fill.caution{background:linear-gradient(90deg,#d4a012,#e8b832)}.fund-bar-fill.warning{background:linear-gradient(90deg,var(--red-accent),#c04040)}
+.disclaimer{font-size:.82rem;color:var(--text-light);margin-top:1.5rem;padding:.8rem 1rem;background:var(--warm-gray);border-radius:6px}
+.cta-section{background:var(--navy);color:#fff;padding:2.5rem 1.5rem;text-align:center}
 .cta-section h2{color:#fff;margin-bottom:.6rem}
-.cta-section p{color:rgba(255,255,255,.8);max-width:550px;margin:0 auto 1.5rem}
-.cta-btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:700;font-size:1rem;padding:.85rem 2rem;border-radius:4px;text-decoration:none;transition:background .2s;letter-spacing:.5px}
-.cta-btn:hover{background:var(--gold-light)}
-.cta-btn+.cta-btn{margin-left:1rem}
-.cta-secondary{background:transparent;color:var(--gold);border:1.5px solid var(--gold)}
-.cta-secondary:hover{background:rgba(200,168,78,.1);color:var(--gold-light)}
-.site-footer{text-align:center;padding:2rem 1.5rem;font-size:.8rem;color:var(--text-light);border-top:1px solid #ddd8cc}
-.disclaimer{font-size:.78rem;color:var(--text-light);font-style:italic;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e8e4da;line-height:1.5}
-.qr-fab{position:fixed;bottom:24px;right:24px;z-index:900;width:54px;height:54px;border-radius:50%;background:var(--gold);color:var(--navy);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(200,168,78,.4),0 2px 6px rgba(0,0,0,.15);transition:transform .2s,box-shadow .2s}
-.qr-fab:hover{transform:scale(1.08);box-shadow:0 6px 24px rgba(200,168,78,.5),0 3px 10px rgba(0,0,0,.2)}
-.qr-fab svg{width:26px;height:26px}
-.qr-popup{position:fixed;bottom:90px;right:24px;z-index:901;background:#fff;border:2px solid var(--gold);border-radius:12px;padding:1.2rem;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.18);opacity:0;visibility:hidden;transform:translateY(10px) scale(.95);transition:all .25s ease}
-.qr-popup.open{opacity:1;visibility:visible;transform:translateY(0) scale(1)}
-.qr-popup img{width:180px;height:180px;display:block;margin:0 auto .6rem;border-radius:4px}
-.qr-popup .qr-label{font-family:'Merriweather',Georgia,serif;font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.15rem}
+.cta-section p{color:rgba(255,255,255,.75);margin-bottom:1.2rem}
+.cta-btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:700;padding:.85rem 2rem;border-radius:4px;text-decoration:none;font-size:.95rem;transition:transform .2s,box-shadow .2s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(200,168,78,.4)}
+.cta-btn.cta-secondary{background:transparent;border:2px solid var(--gold);color:var(--gold);margin-left:1rem}
+.cta-btn.cta-secondary:hover{background:var(--gold);color:var(--navy)}
+.site-footer{background:var(--navy-light);color:rgba(255,255,255,.65);text-align:center;padding:1.5rem 1rem;font-size:.8rem;line-height:1.6}
+.site-footer p{margin-bottom:.4rem;color:rgba(255,255,255,.65)}
+.site-footer a{color:var(--gold)}
+.qr-fab{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:var(--navy);border:2px solid var(--gold);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:1000;box-shadow:0 4px 16px rgba(26,39,68,.25);transition:transform .2s,box-shadow .2s}
+.qr-fab:hover{transform:scale(1.08);box-shadow:0 6px 20px rgba(26,39,68,.35)}
+.qr-fab svg{width:26px;height:26px;color:var(--gold)}
+.qr-popup{position:fixed;bottom:96px;right:24px;background:#fff;border-radius:12px;padding:20px;box-shadow:0 8px 32px rgba(26,39,68,.2);z-index:1001;display:none;text-align:center;border:1px solid #e0dbd0}
+.qr-popup.open{display:block}
+.qr-popup img{width:200px;height:200px;border-radius:8px;border:1px solid #e8e4da}
+.qr-popup .qr-label{font-family:'Merriweather',Georgia,serif;font-weight:700;color:var(--navy);margin-top:12px;font-size:1rem}
 .qr-popup .qr-sublabel{font-size:.72rem;color:var(--text-light)}
 .qr-popup .qr-close{position:absolute;top:6px;right:10px;background:none;border:none;font-size:1.2rem;color:var(--text-light);cursor:pointer;line-height:1}
 .qr-popup .qr-close:hover{color:var(--navy)}
-.watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:420px;height:460px;background-image:url('https://files.constantcontact.com/3720c3fd901/10017eb4-f7d2-424d-92ed-c1b5424b9869.png');background-size:contain;background-repeat:no-repeat;background-position:center;opacity:.04;pointer-events:none;z-index:0}
+.watermark{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:420px;height:460px;background-image:url('dfd-crest.png');background-size:contain;background-repeat:no-repeat;background-position:center;opacity:.04;pointer-events:none;z-index:0}
+.newsletter-block{text-align:center;padding:1rem 0}
+.newsletter-block h2{margin-bottom:.8rem}
+.newsletter-archive{margin:1.5rem 0}
+.newsletter-issue{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:1.2rem 1.5rem;margin-bottom:1rem;transition:border-color .3s}
+.newsletter-issue:hover{border-color:var(--gold)}
+.issue-info{flex:1}
+.issue-num{font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);font-weight:700;margin-bottom:.25rem}
+.issue-title{font-weight:700;color:var(--navy);font-size:1.05rem;margin-bottom:.3rem}
+.issue-desc{font-size:.88rem;color:var(--text-light);line-height:1.5}
+.issue-link{display:inline-block;background:var(--navy);color:#fff;font-weight:600;padding:.6rem 1.2rem;border-radius:4px;text-decoration:none;font-size:.85rem;transition:background .2s,transform .2s}
+.issue-link:hover{background:var(--navy-light);transform:translateY(-1px)}
 @media(max-width:640px){.stat-row{grid-template-columns:repeat(2,1fr)}.result-row{grid-template-columns:1fr}.fund-bar-label{width:90px;font-size:.75rem}.cta-btn+.cta-btn{margin-left:0;margin-top:.8rem;display:block}.cta-btn{display:block}.team-grid{grid-template-columns:1fr 1fr}.provider-grid{grid-template-columns:1fr}.doc-grid{grid-template-columns:1fr}.nav-brand-text{font-size:.82rem}.qr-popup{right:12px;bottom:86px}.newsletter-issue{flex-direction:column;align-items:flex-start}}
 @media(max-width:420px){.team-grid{grid-template-columns:1fr}}
 </style>
@@ -165,7 +143,7 @@ table.board td{padding:.55rem 1rem;border-bottom:1px solid #e8e4da}
   <a href="https://dentonfire.github.io/Denton_Firemen-s_Pension/" target="_blank" rel="noopener"><span class="nav-icon">&#128178;</span> Retirement Calculator &#8599;</a>
   <a href="https://dentonfirepension.com/Home.aspx" target="_blank" rel="noopener"><span class="nav-icon">&#128274;</span> Member Portal &#8599;</a>
 </div>
-<div class="page-hero"><img src="https://files.constantcontact.com/3720c3fd901/10017eb4-f7d2-424d-92ed-c1b5424b9869.png" alt="Denton Fire Department" style="width:80px;height:auto;margin:0 auto 12px;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3));"><h1>Pension Newsletter</h1><p class="subtitle">Stay connected to your retirement</p></div>
+<div class="page-hero"><img src="dfd-crest.png" alt="Denton Fire Department" style="width:100px;height:auto;margin:0 auto 12px;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,.3));border-radius:0;"><h1>Pension Newsletter</h1><p class="subtitle">Stay connected to your retirement</p></div>
 <div class="container">
 <section>
   <div class="newsletter-block">
@@ -203,7 +181,7 @@ table.board td{padding:.55rem 1rem;border-bottom:1px solid #e8e4da}
 </button>
 <div class="qr-popup" id="qrPopup">
   <button class="qr-close" id="qrClose">&times;</button>
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https%3A%2F%2Fdentonfire.github.io%2FPension%2F&color=1a2744&bgcolor=faf8f2" alt="QR Code">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&amp;data=https%3A%2F%2Fdentonfire.github.io%2FPension%2F&amp;color=1a2744&amp;bgcolor=faf8f2" alt="QR Code">
   <div class="qr-label">DFRRF 101</div>
   <div class="qr-sublabel">dentonfire.github.io/Pension</div>
 </div>
