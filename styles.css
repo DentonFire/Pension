@@ -801,7 +801,7 @@ table.board td {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: .04; pointer-events: none; z-index: 0;
+  opacity: .09; pointer-events: none; z-index: 0;
 }
 
 /* ============================================================
