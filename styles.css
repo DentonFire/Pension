@@ -209,7 +209,7 @@ p { margin-bottom: 1rem; color: var(--text); }
 .hero-crest {
   position: absolute; left: 3.5rem;
   top: calc(50% - .5rem); transform: translateY(-50%);
-  width: 180px; height: auto; opacity: .9;
+  width: 270px; height: auto; opacity: .9;
   pointer-events: none;
   filter: drop-shadow(0 2px 8px rgba(0,0,0,.3));
 }
@@ -796,7 +796,7 @@ table.board td {
 .watermark {
   position: fixed; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 420px; height: 460px;
+  width: 630px; height: 690px;
   background-image: url('dfd-crest.png');
   background-size: contain;
   background-repeat: no-repeat;
