@@ -796,12 +796,12 @@ table.board td {
 .watermark {
   position: fixed; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 630px; height: 690px;
+  width: 840px; height: 920px;
   background-image: url('dfd-crest.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  opacity: .09; pointer-events: none; z-index: 0;
+  opacity: .12; pointer-events: none; z-index: 0;
 }
 
 /* ============================================================
