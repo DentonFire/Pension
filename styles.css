@@ -441,14 +441,16 @@ table.board td {
    TEAM CARDS — Rectangular, B&W → color on hover
    ============================================================ */
 .team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1.2rem; margin: 1.5rem 0;
 }
 .team-card {
   background: #fff; border: 1px solid #e0dbd0;
   border-radius: 10px; padding: 1.2rem 1rem;
   text-align: center;
+  width: 155px; flex-shrink: 0;
   transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
 }
 .team-card:hover {
@@ -820,7 +822,7 @@ table.board td {
   .fund-bar-label { width: 90px; font-size: .75rem; }
   .cta-btn + .cta-btn { margin-left: 0; margin-top: .8rem; display: block; }
   .cta-btn { display: block; }
-  .team-grid { grid-template-columns: 1fr 1fr; }
+  .team-card { width: 140px; }
   .featured-providers { grid-template-columns: 1fr; }
   .featured-card { flex-direction: column; align-items: center; text-align: center; }
   .featured-avatar { width: 140px; height: 175px; }
@@ -834,5 +836,5 @@ table.board td {
 }
 
 @media (max-width: 420px) {
-  .team-grid { grid-template-columns: 1fr; }
+  .team-card { width: 130px; }
 }
